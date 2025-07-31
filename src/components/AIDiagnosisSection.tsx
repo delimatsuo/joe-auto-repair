@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { 
+import { supabase } from "@/integrations/supabase/client";
+import {
   Upload, 
   Mic, 
   MicOff, 
@@ -103,27 +104,25 @@ export const AIDiagnosisSection = () => {
         audioText = 'Audio recording provided (transcription not yet implemented)';
       }
 
-      const response = await fetch('/functions/v1/ai-diagnosis', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('ai-diagnosis', {
+        body: {
           description: textDescription,
           customerName,
           customerPhone,
           audioText,
           imageCount: uploadedImages.length
-        }),
+        }
       });
 
-      const result = await response.json();
-      
-      if (!result.success) {
-        throw new Error(result.error || 'Failed to analyze');
+      if (error) {
+        throw new Error(error.message || 'Failed to analyze');
       }
 
-      setDiagnosisResult(result.data);
+      if (!data.success) {
+        throw new Error(data.error || 'Failed to analyze');
+      }
+
+      setDiagnosisResult(data.data);
 
     } catch (error) {
       console.error('Error analyzing with AI:', error);
