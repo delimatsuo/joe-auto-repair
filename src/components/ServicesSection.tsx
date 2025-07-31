@@ -67,20 +67,22 @@ const ServicesSection = () => {
           {services.map((service, index) => {
             const IconComponent = service.icon;
             return (
-              <Card key={index} className="hover:shadow-lg transition-shadow">
-                <CardHeader className="text-center">
-                  <div className="mx-auto mb-4 p-3 bg-primary/10 rounded-full w-fit">
-                    <IconComponent className="h-8 w-8 text-primary" />
+              <Card key={index} className="group hover:shadow-depth transition-all duration-300 hover:-translate-y-2 border-0 shadow-md bg-gradient-to-br from-card to-muted/30">
+                <CardHeader className="text-center pb-4">
+                  <div className="mx-auto mb-4 p-4 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl w-fit group-hover:from-primary/20 group-hover:to-primary/10 transition-all duration-300 shadow-inner">
+                    <IconComponent className="h-8 w-8 text-primary group-hover:scale-110 transition-transform" />
                   </div>
-                  <CardTitle className="text-xl">{service.title}</CardTitle>
-                  <CardDescription>{service.description}</CardDescription>
+                  <CardTitle className="text-xl font-bold group-hover:text-primary transition-colors">{service.title}</CardTitle>
+                  <CardDescription className="text-muted-foreground group-hover:text-foreground/80 transition-colors">{service.description}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2">
+                  <ul className="space-y-3">
                     {service.features.map((feature, featureIndex) => (
-                      <li key={featureIndex} className="flex items-center text-sm text-muted-foreground">
-                        <CheckCircle className="h-4 w-4 text-success mr-2 flex-shrink-0" />
-                        {feature}
+                      <li key={featureIndex} className="flex items-center text-sm group-hover:text-foreground transition-colors">
+                        <div className="mr-3 p-1 bg-success/10 rounded-full">
+                          <CheckCircle className="h-3 w-3 text-success flex-shrink-0" />
+                        </div>
+                        <span className="font-medium">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -90,10 +92,14 @@ const ServicesSection = () => {
           })}
         </div>
 
-        <div className="text-center">
-          <Button variant="hero" size="lg">
+        <div className="text-center bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl p-8 shadow-depth">
+          <h3 className="text-2xl font-bold mb-4">Ready to get started?</h3>
+          <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
+            Don't wait for small problems to become big ones. Schedule your service today and experience the Joe's Auto Repair difference.
+          </p>
+          <button className="bg-primary hover:bg-primary-hover text-primary-foreground font-bold text-lg px-8 py-4 rounded-lg shadow-automotive transition-all duration-300 hover:scale-105">
             Schedule Your Service Today
-          </Button>
+          </button>
         </div>
       </div>
     </section>
