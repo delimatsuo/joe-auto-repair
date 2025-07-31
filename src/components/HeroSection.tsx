@@ -36,16 +36,22 @@ const HeroSection = () => {
         </p>
         
         <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-          <button className="group bg-warning hover:bg-warning/90 text-warning-foreground font-bold text-lg px-8 py-4 rounded-lg shadow-automotive transition-all duration-300 hover:scale-105 hover:shadow-2xl">
+          <button 
+            onClick={() => document.getElementById('ai-diagnosis')?.scrollIntoView({ behavior: 'smooth' })}
+            className="group bg-warning hover:bg-warning/90 text-warning-foreground font-bold text-lg px-8 py-4 rounded-lg shadow-automotive transition-all duration-300 hover:scale-105 hover:shadow-2xl"
+          >
             <span className="flex items-center gap-2">
-              Schedule Service Today
+              🤖 AI Car Diagnosis
               <svg className="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
             </span>
           </button>
-          <button className="group bg-white/10 border-2 border-white/30 text-white hover:bg-white hover:text-foreground font-semibold text-lg px-8 py-4 rounded-lg transition-all duration-300 backdrop-blur-sm hover:scale-105">
-            Get Free Quote
+          <button 
+            onClick={() => window.open('tel:+15085550123', '_self')}
+            className="group bg-white/10 border-2 border-white/30 text-white hover:bg-white hover:text-foreground font-semibold text-lg px-8 py-4 rounded-lg transition-all duration-300 backdrop-blur-sm hover:scale-105"
+          >
+            📞 Call Joe Directly
           </button>
         </div>
         
