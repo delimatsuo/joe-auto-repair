@@ -139,7 +139,7 @@ Provide your response in this exact JSON format:
           temperature: 0.3,
           topK: 32,
           topP: 1,
-          maxOutputTokens: 1024,
+          maxOutputTokens: 4096,
         },
       }),
     })
