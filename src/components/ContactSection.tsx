@@ -95,17 +95,17 @@ const ContactSection = () => {
 
             {/* Google Maps Embed */}
             <div className="lg:order-1">
-              <Card className="overflow-hidden shadow-lg h-full">
-                <CardHeader className="text-center">
+              <Card className="overflow-hidden shadow-lg h-full min-h-[600px] lg:min-h-[700px]">
+                <CardHeader className="text-center pb-4">
                   <CardTitle className="text-xl">Find Us on the Map</CardTitle>
                 </CardHeader>
-                <CardContent className="p-0">
-                  <div className="relative h-96 lg:h-full min-h-[400px]">
+                <CardContent className="p-0 h-full">
+                  <div className="relative h-full min-h-[500px] lg:min-h-[600px]">
                     <iframe
                       src={googleMapsEmbedUrl}
                       width="100%"
                       height="100%"
-                      style={{ border: 0 }}
+                      style={{ border: 0, minHeight: '500px' }}
                       allowFullScreen
                       loading="lazy"
                       referrerPolicy="no-referrer-when-downgrade"
