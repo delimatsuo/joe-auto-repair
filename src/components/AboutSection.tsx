@@ -1,7 +1,10 @@
 import { Badge } from "@/components/ui/badge";
-import { CheckCircle, Award, Users, Clock } from "lucide-react";
+import { CheckCircle, Award, Users, Clock, ExternalLink, Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const AboutSection = () => {
+  const googleReviewsUrl = "https://www.google.com/maps/place/Joe's+Auto+Repair/@42.2103669,-71.9067418,17z/data=!4m8!3m7!1s0x89e406ebaee3a815:0xf71bf5d0866f54bc!8m2!3d42.2103722!4d-71.9067439!9m1!1b1!16s%2Fg%2F11bc8zg_4f";
+
   return (
     <section id="about" className="py-16 bg-muted">
       <div className="container mx-auto px-4">
@@ -59,9 +62,24 @@ const AboutSection = () => {
               </div>
               
               <div className="text-center p-6 bg-card rounded-lg shadow-sm">
-                <Award className="h-12 w-12 text-primary mx-auto mb-4" />
-                <div className="text-3xl font-bold text-primary mb-2">5★</div>
-                <div className="text-muted-foreground">Average Rating</div>
+                <div className="flex justify-center mb-4">
+                  <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-5 w-5 text-warning fill-current" />
+                    ))}
+                  </div>
+                </div>
+                <div className="text-3xl font-bold text-primary mb-2">5.0★</div>
+                <div className="text-muted-foreground mb-3">Google Rating</div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => window.open(googleReviewsUrl, '_blank')}
+                  className="text-xs"
+                >
+                  <ExternalLink className="h-3 w-3 mr-1" />
+                  Read Reviews
+                </Button>
               </div>
               
               <div className="text-center p-6 bg-card rounded-lg shadow-sm">

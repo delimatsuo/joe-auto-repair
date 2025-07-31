@@ -6,10 +6,13 @@ import {
   Clock, 
   Facebook, 
   Instagram, 
-  Star 
+  Star,
+  ExternalLink
 } from "lucide-react";
 
 const Footer = () => {
+  const googleReviewsUrl = "https://www.google.com/maps/place/Joe's+Auto+Repair/@42.2103669,-71.9067418,17z/data=!4m8!3m7!1s0x89e406ebaee3a815:0xf71bf5d0866f54bc!8m2!3d42.2103722!4d-71.9067439!9m1!1b1!16s%2Fg%2F11bc8zg_4f";
+
   return (
     <footer className="bg-accent text-accent-foreground">
       <div className="container mx-auto px-4 py-12">
@@ -96,7 +99,14 @@ const Footer = () => {
                 <Star className="h-4 w-4 text-warning fill-current" />
                 <span className="ml-1">5.0 Rating</span>
               </div>
-              <p className="opacity-90">Based on 100+ customer reviews</p>
+              <p className="opacity-90 mb-2">Based on 100+ customer reviews</p>
+              <button
+                onClick={() => window.open(googleReviewsUrl, '_blank')}
+                className="inline-flex items-center gap-1 text-xs text-warning hover:text-warning/80 transition-colors"
+              >
+                <ExternalLink className="h-3 w-3" />
+                View Google Reviews
+              </button>
             </div>
           </div>
         </div>
