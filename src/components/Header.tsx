@@ -60,6 +60,9 @@ const Header = () => {
             <a href="#services" className="text-foreground hover:text-primary transition-colors">
               Services
             </a>
+            <a href="#ai-diagnosis" className="text-foreground hover:text-primary transition-colors">
+              AI Diagnosis
+            </a>
             <a href="#reviews" className="text-foreground hover:text-primary transition-colors">
               Reviews
             </a>
