@@ -122,11 +122,18 @@ export const AIDiagnosisSection = () => {
         })
       );
 
-      // For now, we'll just use the text description
-      // Audio transcription would need to be implemented separately with Gemini or another service
-      let audioText = '';
+      // Convert audio blob to base64 for sending to Gemini
+      let audioData = null;
       if (recordedAudio) {
-        audioText = 'Audio recording provided (transcription not yet implemented)';
+        audioData = await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onload = () => {
+            const result = reader.result as string;
+            // Remove data URL prefix (e.g., "data:audio/wav;base64,")
+            resolve(result.split(',')[1]);
+          };
+          reader.readAsDataURL(recordedAudio);
+        });
       }
 
       const { data, error } = await supabase.functions.invoke('ai-diagnosis', {
@@ -137,7 +144,7 @@ export const AIDiagnosisSection = () => {
           vehicleYear,
           vehicleMake,
           vehicleModel,
-          audioText,
+          audioData,
           files: fileData
         }
       });

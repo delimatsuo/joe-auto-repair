@@ -13,7 +13,7 @@ serve(async (req) => {
   }
 
   try {
-    const { description, customerName, customerPhone, vehicleYear, vehicleMake, vehicleModel, audioText, files } = await req.json()
+    const { description, customerName, customerPhone, vehicleYear, vehicleMake, vehicleModel, audioText, files, audioData } = await req.json()
 
     console.log('Received request:', { 
       description, 
@@ -23,6 +23,7 @@ serve(async (req) => {
       vehicleMake,
       vehicleModel,
       audioText, 
+      hasAudioData: !!audioData,
       filesCount: files?.length || 0 
     });
 
@@ -48,7 +49,9 @@ serve(async (req) => {
     
     fullPrompt += `Problem Description: ${description || 'No description provided'}\n\n`;
     
-    if (audioText) {
+    if (audioData) {
+      fullPrompt += `Audio Recording: Customer provided audio recording of the issue. Please analyze the sounds, noises, and audio characteristics for diagnostic clues.\n\n`;
+    } else if (audioText && audioText !== 'Audio recording provided (transcription not yet implemented)') {
       fullPrompt += `Audio Description: ${audioText}\n\n`;
     }
 
@@ -70,6 +73,17 @@ serve(async (req) => {
         ]
       }
     ];
+
+    // Add audio data if provided
+    if (audioData) {
+      console.log('Adding audio data for analysis');
+      contents[0].parts.push({
+        inlineData: {
+          mimeType: 'audio/wav',
+          data: audioData
+        }
+      });
+    }
 
     // Add uploaded files to the request if any exist
     if (files && files.length > 0) {
@@ -98,6 +112,7 @@ CRITICAL RULES:
 - When images/videos are provided, analyze them carefully for visual clues
 - For videos, consider any sounds, movements, or visual symptoms shown
 - Reference specific visual details you observe in uploaded media
+- AUDIO ANALYSIS: When audio recordings are provided, listen carefully and analyze all sounds, noises, clicks, squeaks, grinding, humming, or other audio characteristics that could indicate specific automotive problems. Reference the specific sounds you hear in your analysis.
 - VEHICLE-SPECIFIC ANALYSIS: If vehicle year, make, and model are provided, ALWAYS reference known common issues, recalls, technical service bulletins, and typical problems for that specific vehicle. Use this information to provide more targeted analysis.
 - Cross-reference symptoms with documented issues for the specific vehicle model when available
 
@@ -109,8 +124,8 @@ Provide your response in this exact JSON format:
   "disclaimer": "Important safety and professional consultation notice"
 }`;
 
-    // Call Gemini API with vision support
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${geminiApiKey}`, {
+    // Call Gemini API with multimodal support (vision + audio)
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${geminiApiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
