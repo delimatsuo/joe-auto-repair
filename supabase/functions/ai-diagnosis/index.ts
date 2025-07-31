@@ -13,7 +13,7 @@ serve(async (req) => {
   }
 
   try {
-    const { description, customerName, customerPhone, vehicleYear, vehicleMake, vehicleModel, audioText, files, audioData } = await req.json()
+    const { description, customerName, customerPhone, vehicleYear, vehicleMake, vehicleModel, files } = await req.json()
 
     console.log('Received request:', { 
       description, 
@@ -22,8 +22,6 @@ serve(async (req) => {
       vehicleYear,
       vehicleMake,
       vehicleModel,
-      audioText, 
-      hasAudioData: !!audioData,
       filesCount: files?.length || 0 
     });
 
@@ -48,12 +46,6 @@ serve(async (req) => {
     }
     
     fullPrompt += `Problem Description: ${description || 'No description provided'}\n\n`;
-    
-    if (audioData) {
-      fullPrompt += `Voice Recording: Customer provided a voice recording describing the issue. Please listen to and process this as a spoken description of the automotive problem, not as car sounds.\n\n`;
-    } else if (audioText && audioText !== 'Audio recording provided (transcription not yet implemented)') {
-      fullPrompt += `Audio Description: ${audioText}\n\n`;
-    }
 
     if (files && files.length > 0) {
       fullPrompt += `Visual Media: ${files.length} file(s) uploaded (${files.map(f => `${f.name} - ${f.type}`).join(', ')})\n\n`;
@@ -73,17 +65,6 @@ serve(async (req) => {
         ]
       }
     ];
-
-    // Add audio data if provided
-    if (audioData) {
-      console.log('Adding audio data for analysis');
-      contents[0].parts.push({
-        inlineData: {
-          mimeType: 'audio/wav',
-          data: audioData
-        }
-      });
-    }
 
 
     // Add uploaded files to the request if any exist
@@ -113,8 +94,6 @@ CRITICAL RULES:
 - When images/videos are provided, analyze them carefully for visual clues
 - For videos, consider any sounds, movements, or visual symptoms shown
 - Reference specific visual details you observe in uploaded media
-- VOICE RECORDINGS: When audio recordings are provided, these are voice descriptions from the customer explaining their automotive problem. Listen to and understand their spoken description, not as actual car sounds. Treat the audio content as if the customer is verbally describing their issue to you.
-- AUDIO ANALYSIS: When audio recordings contain actual car sounds, noises, clicks, squeaks, grinding, humming, or other audio characteristics, analyze those for diagnostic clues. Reference the specific sounds you hear in your analysis.
 - VEHICLE-SPECIFIC ANALYSIS: If vehicle year, make, and model are provided, ALWAYS reference known common issues, recalls, technical service bulletins, and typical problems for that specific vehicle. Use this information to provide more targeted analysis.
 - Cross-reference symptoms with documented issues for the specific vehicle model when available
 

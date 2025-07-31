@@ -7,8 +7,6 @@ import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Upload, 
-  Mic, 
-  MicOff, 
   Camera, 
   FileImage, 
   Brain,
@@ -26,8 +24,6 @@ interface DiagnosisResult {
 
 export const AIDiagnosisSection = () => {
   const { toast } = useToast();
-  const [isRecording, setIsRecording] = useState(false);
-  const [recordedAudio, setRecordedAudio] = useState<Blob | null>(null);
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
   const [textDescription, setTextDescription] = useState('');
   const [customerName, setCustomerName] = useState('');
@@ -38,44 +34,9 @@ export const AIDiagnosisSection = () => {
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [diagnosisResult, setDiagnosisResult] = useState<DiagnosisResult | null>(null);
   
-  const mediaRecorderRef = useRef<MediaRecorder | null>(null);
-  const audioChunksRef = useRef<Blob[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
 
-  const startRecording = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-      mediaRecorderRef.current = new MediaRecorder(stream);
-      audioChunksRef.current = [];
-
-      mediaRecorderRef.current.ondataavailable = (event) => {
-        audioChunksRef.current.push(event.data);
-      };
-
-      mediaRecorderRef.current.onstop = () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
-        setRecordedAudio(audioBlob);
-      };
-
-      mediaRecorderRef.current.start();
-      setIsRecording(true);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Could not access microphone",
-        variant: "destructive",
-      });
-    }
-  };
-
-  const stopRecording = () => {
-    if (mediaRecorderRef.current) {
-      mediaRecorderRef.current.stop();
-      mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop());
-      setIsRecording(false);
-    }
-  };
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
@@ -88,10 +49,10 @@ export const AIDiagnosisSection = () => {
   };
 
   const analyzeWithAI = async () => {
-    if (!textDescription.trim() && !recordedAudio && uploadedImages.length === 0) {
+    if (!textDescription.trim() && uploadedImages.length === 0) {
       toast({
         title: "Error",
-        description: "Please provide at least a description, audio, or images",
+        description: "Please provide at least a description or images",
         variant: "destructive",
       });
       return;
@@ -122,20 +83,6 @@ export const AIDiagnosisSection = () => {
         })
       );
 
-      // Convert audio blob to base64 for sending to Gemini
-      let audioData = null;
-      if (recordedAudio) {
-        audioData = await new Promise<string>((resolve) => {
-          const reader = new FileReader();
-          reader.onload = () => {
-            const result = reader.result as string;
-            // Remove data URL prefix (e.g., "data:audio/wav;base64,")
-            resolve(result.split(',')[1]);
-          };
-          reader.readAsDataURL(recordedAudio);
-        });
-      }
-
       const { data, error } = await supabase.functions.invoke('ai-diagnosis', {
         body: {
           description: textDescription,
@@ -144,7 +91,6 @@ export const AIDiagnosisSection = () => {
           vehicleYear,
           vehicleMake,
           vehicleModel,
-          audioData,
           files: fileData
         }
       });
@@ -282,23 +228,6 @@ Please contact me to discuss further.`;
                 />
               </div>
 
-              {/* Audio Recording */}
-              <div className="space-y-4">
-                <label className="text-sm font-medium">Record Audio Description</label>
-                <div className="flex items-center gap-4">
-                  <Button
-                    onClick={isRecording ? stopRecording : startRecording}
-                    variant={isRecording ? "destructive" : "outline"}
-                    className="flex items-center gap-2"
-                  >
-                    {isRecording ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
-                    {isRecording ? 'Stop Recording' : 'Start Recording'}
-                  </Button>
-                  {recordedAudio && (
-                    <span className="text-sm text-success">✓ Audio recorded</span>
-                  )}
-                </div>
-              </div>
 
               {/* Image/Video Upload */}
               <div className="space-y-4">
