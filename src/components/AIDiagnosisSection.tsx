@@ -10,7 +10,6 @@ import {
   MicOff, 
   Camera, 
   FileImage, 
-  Send,
   Brain,
   AlertTriangle,
   Phone,
@@ -26,7 +25,6 @@ interface DiagnosisResult {
 
 export const AIDiagnosisSection = () => {
   const { toast } = useToast();
-  const [apiKey, setApiKey] = useState(localStorage.getItem('openai_api_key') || '');
   const [isRecording, setIsRecording] = useState(false);
   const [recordedAudio, setRecordedAudio] = useState<Blob | null>(null);
   const [uploadedImages, setUploadedImages] = useState<File[]>([]);
@@ -40,21 +38,6 @@ export const AIDiagnosisSection = () => {
   const audioChunksRef = useRef<Blob[]>([]);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const saveApiKey = () => {
-    if (!apiKey.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter your OpenAI API key",
-        variant: "destructive",
-      });
-      return;
-    }
-    localStorage.setItem('openai_api_key', apiKey);
-    toast({
-      title: "Success",
-      description: "API key saved successfully",
-    });
-  };
 
   const startRecording = async () => {
     try {
@@ -100,42 +83,7 @@ export const AIDiagnosisSection = () => {
     setUploadedImages(prev => prev.filter((_, i) => i !== index));
   };
 
-  const convertAudioToText = async (audioBlob: Blob): Promise<string> => {
-    try {
-      const formData = new FormData();
-      formData.append('file', audioBlob, 'audio.wav');
-      formData.append('model', 'whisper-1');
-
-      const response = await fetch('https://api.openai.com/v1/audio/transcriptions', {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-        },
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to transcribe audio');
-      }
-
-      const result = await response.json();
-      return result.text;
-    } catch (error) {
-      console.error('Error transcribing audio:', error);
-      return 'Audio transcription failed';
-    }
-  };
-
   const analyzeWithAI = async () => {
-    if (!apiKey.trim()) {
-      toast({
-        title: "Error",
-        description: "Please enter and save your OpenAI API key first",
-        variant: "destructive",
-      });
-      return;
-    }
-
     if (!textDescription.trim() && !recordedAudio && uploadedImages.length === 0) {
       toast({
         title: "Error",
@@ -148,82 +96,34 @@ export const AIDiagnosisSection = () => {
     setIsAnalyzing(true);
 
     try {
-      let fullDescription = textDescription;
-
-      // Add audio transcription if available
+      // For now, we'll just use the text description
+      // Audio transcription would need to be implemented separately with Gemini or another service
+      let audioText = '';
       if (recordedAudio) {
-        const audioText = await convertAudioToText(recordedAudio);
-        fullDescription += `\n\nAudio Description: ${audioText}`;
+        audioText = 'Audio recording provided (transcription not yet implemented)';
       }
 
-      // Prepare messages for the API
-      const messages = [
-        {
-          role: 'system',
-          content: `You are an expert automotive diagnostic assistant for Joe's Auto Repair in Rochdale, MA. 
-
-CRITICAL RULES:
-- NEVER provide pricing, quotes, or cost estimates
-- NEVER recommend specific brands or products
-- Always emphasize this is preliminary analysis only
-- Always recommend professional inspection by Joe
-- Focus on educational information only
-- Be helpful but conservative in your analysis
-
-Provide your response in this exact JSON format:
-{
-  "analysis": "Brief explanation of potential issues based on the description/images",
-  "recommendations": ["recommendation 1", "recommendation 2", "recommendation 3"],
-  "urgency": "low|medium|high",
-  "disclaimer": "Important safety and professional consultation notice"
-}`
-        },
-        {
-          role: 'user',
-          content: `Please analyze this automotive issue:
-
-Customer Description: ${fullDescription}
-
-Customer Name: ${customerName}
-Customer Phone: ${customerPhone}
-
-${uploadedImages.length > 0 ? `Images provided: ${uploadedImages.length} files` : 'No images provided'}`
-        }
-      ];
-
-      const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      const response = await fetch('/functions/v1/ai-diagnosis', {
         method: 'POST',
         headers: {
-          'Authorization': `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          model: 'gpt-4.1-2025-04-14',
-          messages,
-          max_tokens: 1000,
-          temperature: 0.7,
+          description: textDescription,
+          customerName,
+          customerPhone,
+          audioText,
+          imageCount: uploadedImages.length
         }),
       });
 
-      if (!response.ok) {
-        throw new Error('Failed to get AI analysis');
+      const result = await response.json();
+      
+      if (!result.success) {
+        throw new Error(result.error || 'Failed to analyze');
       }
 
-      const result = await response.json();
-      const analysisText = result.choices[0].message.content;
-      
-      try {
-        const diagnosis = JSON.parse(analysisText);
-        setDiagnosisResult(diagnosis);
-      } catch (parseError) {
-        // Fallback if JSON parsing fails
-        setDiagnosisResult({
-          analysis: analysisText,
-          recommendations: ["Contact Joe for professional diagnosis"],
-          urgency: 'medium',
-          disclaimer: "This is an AI-generated preliminary assessment. Always consult with Joe for professional diagnosis and service."
-        });
-      }
+      setDiagnosisResult(result.data);
 
     } catch (error) {
       console.error('Error analyzing with AI:', error);
@@ -280,28 +180,6 @@ Please contact me to discuss further.`;
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {/* API Key Input */}
-              <div className="space-y-2">
-                <label className="text-sm font-medium">OpenAI API Key (Required)</label>
-                <div className="flex gap-2">
-                  <Input
-                    type="password"
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    placeholder="Enter your OpenAI API key"
-                    className="flex-1"
-                  />
-                  <Button onClick={saveApiKey} variant="outline">
-                    Save
-                  </Button>
-                </div>
-                <p className="text-xs text-muted-foreground">
-                  Get your API key from{' '}
-                  <a href="https://platform.openai.com/api-keys" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                    OpenAI Platform
-                  </a>
-                </p>
-              </div>
 
               {/* Customer Information */}
               <div className="grid md:grid-cols-2 gap-4">
