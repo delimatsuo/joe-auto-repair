@@ -13,12 +13,15 @@ serve(async (req) => {
   }
 
   try {
-    const { description, customerName, customerPhone, audioText, files } = await req.json()
+    const { description, customerName, customerPhone, vehicleYear, vehicleMake, vehicleModel, audioText, files } = await req.json()
 
     console.log('Received request:', { 
       description, 
       customerName, 
       customerPhone, 
+      vehicleYear,
+      vehicleMake,
+      vehicleModel,
       audioText, 
       filesCount: files?.length || 0 
     });
@@ -32,6 +35,17 @@ serve(async (req) => {
 
     // Build the prompt with all available information
     let fullPrompt = `Customer: ${customerName} (${customerPhone})\n\n`;
+    
+    // Add vehicle information if provided
+    const vehicleInfo = vehicleYear && vehicleMake && vehicleModel 
+      ? `${vehicleYear} ${vehicleMake} ${vehicleModel}`
+      : null;
+    
+    if (vehicleInfo) {
+      fullPrompt += `Vehicle: ${vehicleInfo}\n\n`;
+      fullPrompt += `IMPORTANT: Please consider common issues, recalls, and known problems specific to this vehicle model (${vehicleInfo}) when analyzing the symptoms.\n\n`;
+    }
+    
     fullPrompt += `Problem Description: ${description || 'No description provided'}\n\n`;
     
     if (audioText) {
@@ -84,6 +98,8 @@ CRITICAL RULES:
 - When images/videos are provided, analyze them carefully for visual clues
 - For videos, consider any sounds, movements, or visual symptoms shown
 - Reference specific visual details you observe in uploaded media
+- VEHICLE-SPECIFIC ANALYSIS: If vehicle year, make, and model are provided, ALWAYS reference known common issues, recalls, technical service bulletins, and typical problems for that specific vehicle. Use this information to provide more targeted analysis.
+- Cross-reference symptoms with documented issues for the specific vehicle model when available
 
 Provide your response in this exact JSON format:
 {

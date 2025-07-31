@@ -32,6 +32,9 @@ export const AIDiagnosisSection = () => {
   const [textDescription, setTextDescription] = useState('');
   const [customerName, setCustomerName] = useState('');
   const [customerPhone, setCustomerPhone] = useState('');
+  const [vehicleYear, setVehicleYear] = useState('');
+  const [vehicleMake, setVehicleMake] = useState('');
+  const [vehicleModel, setVehicleModel] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [diagnosisResult, setDiagnosisResult] = useState<DiagnosisResult | null>(null);
   
@@ -131,6 +134,9 @@ export const AIDiagnosisSection = () => {
           description: textDescription,
           customerName,
           customerPhone,
+          vehicleYear,
+          vehicleMake,
+          vehicleModel,
           audioText,
           files: fileData
         }
@@ -159,8 +165,13 @@ export const AIDiagnosisSection = () => {
   };
 
   const sendToJoe = () => {
+    const vehicleInfo = vehicleYear && vehicleMake && vehicleModel 
+      ? `${vehicleYear} ${vehicleMake} ${vehicleModel}` 
+      : 'Vehicle details not provided';
+    
     const message = `Hi Joe! AI Analysis from ${customerName} (${customerPhone}):
 
+Vehicle: ${vehicleInfo}
 Problem: ${textDescription}
 
 AI Assessment: ${diagnosisResult?.analysis}
@@ -219,6 +230,37 @@ Please contact me to discuss further.`;
                     onChange={(e) => setCustomerPhone(e.target.value)}
                     placeholder="(555) 123-4567"
                   />
+                </div>
+              </div>
+
+              {/* Vehicle Information */}
+              <div>
+                <h3 className="text-lg font-semibold mb-3">Vehicle Information</h3>
+                <div className="grid md:grid-cols-3 gap-4">
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Year</label>
+                    <Input
+                      value={vehicleYear}
+                      onChange={(e) => setVehicleYear(e.target.value)}
+                      placeholder="2015"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Make/Brand</label>
+                    <Input
+                      value={vehicleMake}
+                      onChange={(e) => setVehicleMake(e.target.value)}
+                      placeholder="Land Rover"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-sm font-medium mb-2 block">Model</label>
+                    <Input
+                      value={vehicleModel}
+                      onChange={(e) => setVehicleModel(e.target.value)}
+                      placeholder="LR4"
+                    />
+                  </div>
                 </div>
               </div>
 
