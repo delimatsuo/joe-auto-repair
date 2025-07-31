@@ -77,11 +77,11 @@ const ContactSection = () => {
                     <div className="space-y-2 text-center">
                       <div className="flex justify-between items-center">
                         <span className="font-medium">Monday - Friday:</span>
-                        <span className="text-primary font-semibold">8:00 AM - 6:00 PM</span>
+                        <span className="text-primary font-semibold">8:00 AM - 5:00 PM</span>
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="font-medium">Saturday:</span>
-                        <span className="text-primary font-semibold">8:00 AM - 4:00 PM</span>
+                        <span className="text-primary font-semibold">9:00 AM - 1:00 PM</span>
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="font-medium">Sunday:</span>
