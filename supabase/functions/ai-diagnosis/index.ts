@@ -49,50 +49,8 @@ serve(async (req) => {
     
     fullPrompt += `Problem Description: ${description || 'No description provided'}\n\n`;
     
-    // Handle audio data - first transcribe to text, then add to prompt
-    let transcribedText = '';
     if (audioData) {
-      console.log('Transcribing audio with Gemini...');
-      
-      // First, transcribe the audio to text
-      const transcriptionResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiApiKey}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          contents: [{
-            role: "user",
-            parts: [
-              {
-                text: "Please transcribe this audio recording accurately. Only return the transcribed text, nothing else."
-              },
-              {
-                inlineData: {
-                  mimeType: 'audio/wav',
-                  data: audioData
-                }
-              }
-            ]
-          }],
-          generationConfig: {
-            temperature: 0.1,
-            maxOutputTokens: 1024,
-          },
-        }),
-      });
-
-      if (transcriptionResponse.ok) {
-        const transcriptionResult = await transcriptionResponse.json();
-        if (transcriptionResult.candidates && transcriptionResult.candidates.length > 0) {
-          transcribedText = transcriptionResult.candidates[0].content.parts[0].text.trim();
-          console.log('Transcribed text:', transcribedText);
-          fullPrompt += `Voice Description: ${transcribedText}\n\n`;
-        }
-      } else {
-        console.error('Transcription failed:', await transcriptionResponse.text());
-        fullPrompt += `Audio Recording: Customer provided audio recording but transcription failed.\n\n`;
-      }
+      fullPrompt += `Voice Recording: Customer provided a voice recording describing the issue. Please listen to and process this as a spoken description of the automotive problem, not as car sounds.\n\n`;
     } else if (audioText && audioText !== 'Audio recording provided (transcription not yet implemented)') {
       fullPrompt += `Audio Description: ${audioText}\n\n`;
     }
@@ -115,6 +73,17 @@ serve(async (req) => {
         ]
       }
     ];
+
+    // Add audio data if provided
+    if (audioData) {
+      console.log('Adding audio data for analysis');
+      contents[0].parts.push({
+        inlineData: {
+          mimeType: 'audio/wav',
+          data: audioData
+        }
+      });
+    }
 
 
     // Add uploaded files to the request if any exist
@@ -144,7 +113,8 @@ CRITICAL RULES:
 - When images/videos are provided, analyze them carefully for visual clues
 - For videos, consider any sounds, movements, or visual symptoms shown
 - Reference specific visual details you observe in uploaded media
-- AUDIO ANALYSIS: When audio recordings are provided, listen carefully and analyze all sounds, noises, clicks, squeaks, grinding, humming, or other audio characteristics that could indicate specific automotive problems. Reference the specific sounds you hear in your analysis.
+- VOICE RECORDINGS: When audio recordings are provided, these are voice descriptions from the customer explaining their automotive problem. Listen to and understand their spoken description, not as actual car sounds. Treat the audio content as if the customer is verbally describing their issue to you.
+- AUDIO ANALYSIS: When audio recordings contain actual car sounds, noises, clicks, squeaks, grinding, humming, or other audio characteristics, analyze those for diagnostic clues. Reference the specific sounds you hear in your analysis.
 - VEHICLE-SPECIFIC ANALYSIS: If vehicle year, make, and model are provided, ALWAYS reference known common issues, recalls, technical service bulletins, and typical problems for that specific vehicle. Use this information to provide more targeted analysis.
 - Cross-reference symptoms with documented issues for the specific vehicle model when available
 
