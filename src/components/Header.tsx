@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { Phone, MapPin, Star } from "lucide-react";
+import { Phone, MapPin, Star, Sparkles } from "lucide-react";
 
 const Header = () => {
   const googleReviewsUrl = "https://www.google.com/maps/place/Joe's+Auto+Repair/@42.2103669,-71.9067418,17z/data=!4m8!3m7!1s0x89e406ebaee3a815:0xf71bf5d0866f54bc!8m2!3d42.2103722!4d-71.9067439!9m1!1b1!16s%2Fg%2F11bc8zg_4f";
@@ -60,9 +60,15 @@ const Header = () => {
             <a href="#services" className="text-foreground hover:text-primary transition-colors">
               Services
             </a>
-            <a href="#ai-diagnosis" className="text-foreground hover:text-primary transition-colors">
+            <Button 
+              variant="secondary" 
+              size="sm"
+              onClick={() => document.getElementById('ai-diagnosis')?.scrollIntoView({ behavior: 'smooth' })}
+              className="bg-gradient-to-r from-primary to-primary-hover text-primary-foreground hover:shadow-lg transition-all duration-300"
+            >
+              <Sparkles className="w-4 h-4 mr-2" />
               AI Diagnosis
-            </a>
+            </Button>
             <a href="#reviews" className="text-foreground hover:text-primary transition-colors">
               Reviews
             </a>
