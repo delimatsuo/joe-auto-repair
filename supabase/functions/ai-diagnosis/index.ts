@@ -1,5 +1,5 @@
+import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
-import { createClient } from 'https://esm.sh/@supabase/supabase-js@2'
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -13,7 +13,15 @@ serve(async (req) => {
   }
 
   try {
-    const { description, customerName, customerPhone, audioText, imageCount } = await req.json()
+    const { description, customerName, customerPhone, audioText, files } = await req.json()
+
+    console.log('Received request:', { 
+      description, 
+      customerName, 
+      customerPhone, 
+      audioText, 
+      filesCount: files?.length || 0 
+    });
 
     // Get the Gemini API key from Supabase secrets
     const geminiApiKey = Deno.env.get('GEMINI_API_KEY')
@@ -22,7 +30,48 @@ serve(async (req) => {
       throw new Error('Gemini API key not configured')
     }
 
-    // Prepare the prompt for Gemini
+    // Build the prompt with all available information
+    let fullPrompt = `Customer: ${customerName} (${customerPhone})\n\n`;
+    fullPrompt += `Problem Description: ${description || 'No description provided'}\n\n`;
+    
+    if (audioText) {
+      fullPrompt += `Audio Description: ${audioText}\n\n`;
+    }
+
+    if (files && files.length > 0) {
+      fullPrompt += `Visual Media: ${files.length} file(s) uploaded (${files.map(f => `${f.name} - ${f.type}`).join(', ')})\n\n`;
+      fullPrompt += `Please analyze the uploaded images/videos carefully for visual clues about the automotive issue.\n\n`;
+    }
+
+    fullPrompt += `Please provide a detailed analysis based on ALL available information including visual evidence from uploaded media.`;
+
+    // Prepare the content array for Gemini with vision support
+    const contents = [
+      {
+        role: "user",
+        parts: [
+          {
+            text: fullPrompt
+          }
+        ]
+      }
+    ];
+
+    // Add uploaded files to the request if any exist
+    if (files && files.length > 0) {
+      for (const file of files) {
+        if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
+          console.log(`Adding ${file.type} file: ${file.name}`);
+          contents[0].parts.push({
+            inlineData: {
+              mimeType: file.type,
+              data: file.data
+            }
+          });
+        }
+      }
+    }
+
     const systemPrompt = `You are an expert automotive diagnostic assistant for Joe's Auto Repair in Rochdale, MA. 
 
 CRITICAL RULES:
@@ -32,44 +81,36 @@ CRITICAL RULES:
 - Always recommend professional inspection by Joe
 - Focus on educational information only
 - Be helpful but conservative in your analysis
+- When images/videos are provided, analyze them carefully for visual clues
+- For videos, consider any sounds, movements, or visual symptoms shown
+- Reference specific visual details you observe in uploaded media
 
 Provide your response in this exact JSON format:
 {
-  "analysis": "Brief explanation of potential issues based on the description/images",
+  "analysis": "Detailed explanation of potential issues based on description and visual evidence",
   "recommendations": ["recommendation 1", "recommendation 2", "recommendation 3"],
   "urgency": "low|medium|high",
   "disclaimer": "Important safety and professional consultation notice"
-}`
+}`;
 
-    const userPrompt = `Please analyze this automotive issue:
-
-Customer Description: ${description}
-${audioText ? `\nAudio Description: ${audioText}` : ''}
-
-Customer Name: ${customerName}
-Customer Phone: ${customerPhone}
-
-${imageCount > 0 ? `Images provided: ${imageCount} files` : 'No images provided'}`
-
-    // Call Gemini API
+    // Call Gemini API with vision support
     const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp:generateContent?key=${geminiApiKey}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: `${systemPrompt}\n\n${userPrompt}`
-          }]
-        }],
+        system_instruction: {
+          parts: [{ text: systemPrompt }]
+        },
+        contents: contents,
         generationConfig: {
-          temperature: 0.7,
-          topP: 0.8,
-          topK: 40,
-          maxOutputTokens: 1000,
-        }
-      })
+          temperature: 0.3,
+          topK: 32,
+          topP: 1,
+          maxOutputTokens: 1024,
+        },
+      }),
     })
 
     if (!response.ok) {
@@ -77,15 +118,31 @@ ${imageCount > 0 ? `Images provided: ${imageCount} files` : 'No images provided'
     }
 
     const result = await response.json()
+    console.log('Gemini response:', JSON.stringify(result, null, 2));
+
+    if (!result.candidates || result.candidates.length === 0) {
+      throw new Error('No response candidates from Gemini API');
+    }
+
     const analysisText = result.candidates[0].content.parts[0].text
+    console.log('Raw response text:', analysisText);
 
     // Try to parse as JSON, fallback if it fails
     let diagnosis
     try {
-      diagnosis = JSON.parse(analysisText)
+      // Look for JSON in the response - handle both markdown code blocks and plain JSON
+      const jsonMatch = analysisText.match(/```json\s*([\s\S]*?)\s*```/) || analysisText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        const jsonStr = jsonMatch[1] || jsonMatch[0];
+        diagnosis = JSON.parse(jsonStr);
+      } else {
+        // If no JSON found, try parsing the entire response
+        diagnosis = JSON.parse(analysisText);
+      }
     } catch (parseError) {
+      console.error('Failed to parse Gemini response as JSON:', parseError);
       diagnosis = {
-        analysis: analysisText,
+        analysis: analysisText || "Unable to analyze the issue with the provided information.",
         recommendations: ["Contact Joe for professional diagnosis"],
         urgency: 'medium',
         disclaimer: "This is an AI-generated preliminary assessment. Always consult with Joe for professional diagnosis and service."

@@ -97,6 +97,28 @@ export const AIDiagnosisSection = () => {
     setIsAnalyzing(true);
 
     try {
+      // Convert uploaded files to base64 for sending to edge function
+      const fileData = await Promise.all(
+        uploadedImages.map(async (file) => {
+          const base64 = await new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onload = () => {
+              const result = reader.result as string;
+              // Remove data URL prefix (e.g., "data:image/jpeg;base64,")
+              resolve(result.split(',')[1]);
+            };
+            reader.readAsDataURL(file);
+          });
+          
+          return {
+            name: file.name,
+            type: file.type,
+            size: file.size,
+            data: base64
+          };
+        })
+      );
+
       // For now, we'll just use the text description
       // Audio transcription would need to be implemented separately with Gemini or another service
       let audioText = '';
@@ -110,7 +132,7 @@ export const AIDiagnosisSection = () => {
           customerName,
           customerPhone,
           audioText,
-          imageCount: uploadedImages.length
+          files: fileData
         }
       });
 
