@@ -242,7 +242,7 @@ Please contact me to discuss further.`;
                     <Input
                       value={vehicleYear}
                       onChange={(e) => setVehicleYear(e.target.value)}
-                      placeholder="2015"
+                      placeholder=""
                     />
                   </div>
                   <div>
@@ -250,7 +250,7 @@ Please contact me to discuss further.`;
                     <Input
                       value={vehicleMake}
                       onChange={(e) => setVehicleMake(e.target.value)}
-                      placeholder="Land Rover"
+                      placeholder=""
                     />
                   </div>
                   <div>
@@ -258,7 +258,7 @@ Please contact me to discuss further.`;
                     <Input
                       value={vehicleModel}
                       onChange={(e) => setVehicleModel(e.target.value)}
-                      placeholder="LR4"
+                      placeholder=""
                     />
                   </div>
                 </div>
