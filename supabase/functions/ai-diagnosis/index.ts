@@ -49,8 +49,50 @@ serve(async (req) => {
     
     fullPrompt += `Problem Description: ${description || 'No description provided'}\n\n`;
     
+    // Handle audio data - first transcribe to text, then add to prompt
+    let transcribedText = '';
     if (audioData) {
-      fullPrompt += `Audio Recording: Customer provided audio recording of the issue. Please analyze the sounds, noises, and audio characteristics for diagnostic clues.\n\n`;
+      console.log('Transcribing audio with Gemini...');
+      
+      // First, transcribe the audio to text
+      const transcriptionResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-pro:generateContent?key=${geminiApiKey}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contents: [{
+            role: "user",
+            parts: [
+              {
+                text: "Please transcribe this audio recording accurately. Only return the transcribed text, nothing else."
+              },
+              {
+                inlineData: {
+                  mimeType: 'audio/wav',
+                  data: audioData
+                }
+              }
+            ]
+          }],
+          generationConfig: {
+            temperature: 0.1,
+            maxOutputTokens: 1024,
+          },
+        }),
+      });
+
+      if (transcriptionResponse.ok) {
+        const transcriptionResult = await transcriptionResponse.json();
+        if (transcriptionResult.candidates && transcriptionResult.candidates.length > 0) {
+          transcribedText = transcriptionResult.candidates[0].content.parts[0].text.trim();
+          console.log('Transcribed text:', transcribedText);
+          fullPrompt += `Voice Description: ${transcribedText}\n\n`;
+        }
+      } else {
+        console.error('Transcription failed:', await transcriptionResponse.text());
+        fullPrompt += `Audio Recording: Customer provided audio recording but transcription failed.\n\n`;
+      }
     } else if (audioText && audioText !== 'Audio recording provided (transcription not yet implemented)') {
       fullPrompt += `Audio Description: ${audioText}\n\n`;
     }
@@ -74,16 +116,6 @@ serve(async (req) => {
       }
     ];
 
-    // Add audio data if provided
-    if (audioData) {
-      console.log('Adding audio data for analysis');
-      contents[0].parts.push({
-        inlineData: {
-          mimeType: 'audio/wav',
-          data: audioData
-        }
-      });
-    }
 
     // Add uploaded files to the request if any exist
     if (files && files.length > 0) {
