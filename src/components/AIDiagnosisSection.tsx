@@ -136,7 +136,7 @@ Urgency Level: ${diagnosisResult?.urgency}
 Please contact me to discuss further.`;
 
     const encodedMessage = encodeURIComponent(message);
-    window.open(`sms:+15085550123?&body=${encodedMessage}`, '_self');
+    window.open(`sms:+17726185558?&body=${encodedMessage}`, '_self');
   };
 
   return (
@@ -344,7 +344,7 @@ Please contact me to discuss further.`;
                           Send to Joe
                         </Button>
                         <Button
-                          onClick={() => window.open('tel:+15085550123', '_self')}
+                          onClick={() => window.open('tel:+17726185558', '_self')}
                           variant="outline"
                           className="flex-1"
                         >

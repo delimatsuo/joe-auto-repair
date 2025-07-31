@@ -12,7 +12,7 @@ const Header = () => {
           <div className="flex items-center gap-6">
             <div className="flex items-center gap-2">
               <Phone className="h-4 w-4" />
-              <span>(508) 555-0123</span>
+              <span>+1 (772) 618-5558</span>
             </div>
             <div className="flex items-center gap-2">
               <MapPin className="h-4 w-4" />
@@ -32,7 +32,11 @@ const Header = () => {
             >
               Reviews
             </Button>
-            <Button variant="cta" size="sm">
+            <Button 
+              variant="cta" 
+              size="sm"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+            >
               Book Now
             </Button>
           </div>

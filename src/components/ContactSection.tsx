@@ -37,10 +37,10 @@ const ContactSection = () => {
                   </CardHeader>
                   <CardContent className="text-center">
                     <a 
-                      href="tel:+15085550123" 
+                      href="tel:+17726185558" 
                       className="text-2xl font-bold text-primary hover:text-primary-hover transition-colors"
                     >
-                      (508) 555-0123
+                      +1 (772) 618-5558
                     </a>
                     <p className="text-muted-foreground mt-2">Ready to help with your automotive needs</p>
                   </CardContent>

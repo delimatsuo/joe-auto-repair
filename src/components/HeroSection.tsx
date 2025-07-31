@@ -48,7 +48,7 @@ const HeroSection = () => {
             </span>
           </button>
           <button 
-            onClick={() => window.open('tel:+15085550123', '_self')}
+            onClick={() => window.open('tel:+17726185558', '_self')}
             className="group bg-white/10 border-2 border-white/30 text-white hover:bg-white hover:text-foreground font-semibold text-lg px-8 py-4 rounded-lg transition-all duration-300 backdrop-blur-sm hover:scale-105"
           >
             📞 Call Joe Directly
