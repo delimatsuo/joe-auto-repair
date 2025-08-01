@@ -40,26 +40,21 @@ export const AIDiagnosisSection = () => {
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-    
-    const supportedFiles = files.filter(file => file.type.startsWith('image/') || file.type === 'video/mp4');
-    const unsupportedVideoFiles = files.filter(file => 
-      (file.type.startsWith('video/') && file.type !== 'video/mp4') ||
+    // Support common video formats including .mov files
+    const supportedFiles = files.filter(file => 
+      file.type.startsWith('image/') || 
+      file.type.startsWith('video/') ||
       file.type === 'video/quicktime' ||
-      file.name.toLowerCase().endsWith('.mov')
+      file.name.toLowerCase().endsWith('.mov') ||
+      file.name.toLowerCase().endsWith('.mp4') ||
+      file.name.toLowerCase().endsWith('.avi') ||
+      file.name.toLowerCase().endsWith('.webm')
     );
     
-    if (unsupportedVideoFiles.length > 0) {
-      toast({
-        title: "Video format not supported",
-        description: "Only MP4 videos can be analyzed. Please convert .mov files to MP4 or describe what you see in the video.",
-        variant: "default",
-      });
-    }
-    
-    if (supportedFiles.length !== files.length && unsupportedVideoFiles.length === 0) {
+    if (supportedFiles.length !== files.length) {
       toast({
         title: "Some files skipped",
-        description: "Only image and MP4 video files are supported",
+        description: "Only image and video files are supported",
         variant: "default",
       });
     }
@@ -260,7 +255,7 @@ Please contact me to discuss further.`;
                     ref={fileInputRef}
                     type="file"
                     multiple
-                    accept="image/*,video/mp4"
+                    accept="image/*,video/*"
                     onChange={handleImageUpload}
                     className="hidden"
                   />

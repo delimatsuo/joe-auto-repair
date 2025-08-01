@@ -70,27 +70,14 @@ serve(async (req) => {
     // Add uploaded files to the request if any exist
     if (files && files.length > 0) {
       for (const file of files) {
-        // Gemini supports images and limited video formats (MP4 only)
-        if (file.type.startsWith('image/')) {
-          console.log(`Adding image file: ${file.name}`);
+        if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
+          console.log(`Adding ${file.type} file: ${file.name}`);
           contents[0].parts.push({
             inlineData: {
               mimeType: file.type,
               data: file.data
             }
           });
-        } else if (file.type === 'video/mp4') {
-          console.log(`Adding MP4 video file: ${file.name}`);
-          contents[0].parts.push({
-            inlineData: {
-              mimeType: file.type,
-              data: file.data
-            }
-          });
-        } else if (file.type.startsWith('video/') || file.type === 'video/quicktime') {
-          console.log(`Skipping unsupported video format: ${file.name} (${file.type})`);
-          // Add note about the video file in the prompt instead
-          fullPrompt += `\nNote: A video file (${file.name}) was uploaded but cannot be processed due to format limitations. Customer should describe what they observed in the video.\n`;
         }
       }
     }
@@ -139,7 +126,9 @@ Provide your response in this exact JSON format:
     })
 
     if (!response.ok) {
-      throw new Error(`Gemini API error: ${response.status}`)
+      const errorDetails = await response.text()
+      console.error(`Gemini API error ${response.status}:`, errorDetails)
+      throw new Error(`Gemini API error: ${response.status} - ${errorDetails}`)
     }
 
     const result = await response.json()
