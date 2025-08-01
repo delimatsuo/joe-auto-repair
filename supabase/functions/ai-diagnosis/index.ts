@@ -146,12 +146,16 @@ serve(async (req) => {
                 console.log(`File still processing... (attempt ${retries + 1})`);
                 await new Promise(resolve => setTimeout(resolve, 1000));
                 
-                const statusResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/files/${uploadedFile.name}?key=${geminiApiKey}`);
+                // Extract just the file ID from the name (remove 'files/' prefix if present)
+                const fileId = uploadedFile.name.replace('files/', '');
+                const statusResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/files/${fileId}?key=${geminiApiKey}`);
                 if (statusResponse.ok) {
                   const statusData = await statusResponse.json();
                   uploadedFile = statusData;
+                  console.log(`File status check: ${uploadedFile.state}`);
                 } else {
-                  console.error('Failed to check file status:', statusResponse.status);
+                  const errorText = await statusResponse.text();
+                  console.error('Failed to check file status:', statusResponse.status, errorText);
                   break;
                 }
                 retries++;
