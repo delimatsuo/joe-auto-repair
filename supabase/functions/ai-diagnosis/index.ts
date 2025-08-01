@@ -66,18 +66,24 @@ serve(async (req) => {
       }
     ];
 
-
     // Add uploaded files to the request if any exist
     if (files && files.length > 0) {
       for (const file of files) {
-        if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
-          console.log(`Adding ${file.type} file: ${file.name}`);
+        if (file.type.startsWith('image/')) {
+          console.log(`Adding image file: ${file.name}`);
           contents[0].parts.push({
             inlineData: {
               mimeType: file.type,
               data: file.data
             }
           });
+        } else if (file.type.startsWith('video/')) {
+          console.log(`Video file detected: ${file.name} (${file.type}) - ${file.size} bytes`);
+          console.log('Note: Large video files may cause processing issues. Consider using File API for videos in production.');
+          // For now, we'll skip video processing to avoid the 500 error
+          // and add a note to the prompt instead
+          const videoSizeMB = Math.round(file.size / 1024 / 1024 * 10) / 10;
+          contents[0].parts[0].text += `\n\nNote: A video file (${file.name}, ${videoSizeMB}MB) was uploaded but cannot be processed due to API limitations. Please describe what you observed in the video.\n`;
         }
       }
     }
