@@ -5,22 +5,22 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const brands = [
   {
-    name: "BMW",
-    image: bmwImage,
-    alt: "BMW vehicle serviced at Joe's Auto Repair",
-    description: "Specialized BMW service and repair with factory-trained technicians"
+    name: "Bentley",
+    image: "/lovable-uploads/100c0add-6958-48f8-af23-8ed289b4637d.png",
+    alt: "Bentley vehicle at Joe's Luxury Auto",
+    description: "Master-level Bentley service with factory certification and genuine parts"
   },
   {
-    name: "Audi", 
-    image: audiImage,
-    alt: "Audi vehicle serviced at Joe's Auto Repair",
-    description: "Expert Audi maintenance and diagnostics using genuine parts"
+    name: "Ferrari", 
+    image: "/lovable-uploads/4cabc746-eb6c-4d0c-8b82-8b1ce5265c07.png",
+    alt: "Ferrari vehicle at Joe's Luxury Auto",
+    description: "Authorized Ferrari service center with Italian-trained technicians"
   },
   {
-    name: "Land Rover",
-    image: landroverImage, 
-    alt: "Land Rover vehicle serviced at Joe's Auto Repair",
-    description: "Professional Land Rover service for all models and years"
+    name: "Lamborghini",
+    image: "/lovable-uploads/5c926083-944b-4989-a747-4f5b6179b713.png", 
+    alt: "Lamborghini vehicle at Joe's Luxury Auto",
+    description: "Specialized Lamborghini service with track-proven expertise"
   }
 ];
 
@@ -30,10 +30,10 @@ const BrandsSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Brand Specialization
+            Luxury Marque Expertise
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We specialize in premium European vehicles with expert knowledge and genuine parts
+            Exclusive specialization in the world's most prestigious automotive brands
           </p>
         </div>
 
@@ -63,7 +63,7 @@ const BrandsSection = () => {
 
         <div className="text-center mt-12">
           <p className="text-muted-foreground mb-6">
-            Trust your premium vehicle to our certified specialists
+            Where automotive artistry meets technical mastery
           </p>
         </div>
       </div>

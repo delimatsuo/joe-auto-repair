@@ -18,10 +18,10 @@ const AboutSection = () => {
               <span className="text-primary font-semibold text-sm">About Our Shop</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Meet Joe - Your Local Auto Expert
+              Meet Joe - Master of Luxury Automobiles
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              20+ years of trust, expertise, and honest service in Rochdale, MA
+              25+ years perfecting the art of Bentley, Ferrari, and Lamborghini service
             </p>
           </div>
 
@@ -30,33 +30,33 @@ const AboutSection = () => {
             <div className="space-y-8">
               <div>
                 <h3 className="text-3xl font-bold mb-6 text-foreground">
-                  Built on Trust, Driven by Excellence
+                  Crafted for Perfection, Built on Precision
                 </h3>
                 <p className="text-muted-foreground mb-6 leading-relaxed">
-                  With over 20 years of experience in automotive repair, Joe has built his reputation 
-                  on honest service and professional results. Starting as a young mechanic with a 
-                  passion for problem-solving, Joe opened his shop in Rochdale with one mission: 
-                  to provide transparent, reliable auto repair services to his community.
+                  For over 25 years, Joe has dedicated his career to mastering the intricate engineering 
+                  of the world's most prestigious automobiles. What began as a passion for exotic machinery 
+                  evolved into an exclusive specialty workshop focused solely on Bentley, Ferrari, and 
+                  Lamborghini vehicles.
                 </p>
                 <p className="text-muted-foreground mb-6 leading-relaxed">
-                  Today, Joe leads a skilled team of expert technicians who share his commitment to 
-                  excellence. Together, they specialize in BMW, Audi, and Land Rover repair, while 
-                  welcoming all makes and models. Their dedication to ongoing education and the latest 
-                  diagnostic equipment ensures every vehicle receives the best care possible.
+                  Joe's team consists of factory-certified master technicians who undergo continuous 
+                  specialized training at European facilities. Each craftsman brings decades of experience 
+                  working exclusively with these ultra-luxury marques, ensuring your investment receives 
+                  the meticulous care it deserves.
                 </p>
                 
                 <div className="flex flex-wrap gap-3">
                   <div className="inline-flex items-center gap-2 bg-success/10 border border-success/20 rounded-full px-4 py-2">
                     <div className="w-2 h-2 bg-success rounded-full"></div>
-                    <span className="text-success font-semibold text-sm">ASE Certified</span>
+                    <span className="text-success font-semibold text-sm">Factory Certified</span>
                   </div>
                   <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-2">
                     <div className="w-2 h-2 bg-primary rounded-full"></div>
-                    <span className="text-primary font-semibold text-sm">BMW Specialist</span>
+                    <span className="text-primary font-semibold text-sm">Luxury Specialist</span>
                   </div>
                   <div className="inline-flex items-center gap-2 bg-warning/10 border border-warning/20 rounded-full px-4 py-2">
                     <div className="w-2 h-2 bg-warning rounded-full"></div>
-                    <span className="text-warning-foreground font-semibold text-sm">LGBTQ+ Friendly</span>
+                    <span className="text-warning-foreground font-semibold text-sm">Concierge Service</span>
                   </div>
                 </div>
               </div>
@@ -85,16 +85,16 @@ const AboutSection = () => {
               <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl w-fit group-hover:from-primary/20 group-hover:to-primary/10 transition-all duration-300">
                 <Clock className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
               </div>
-              <div className="text-2xl lg:text-3xl font-bold text-primary mb-1">20+</div>
-              <div className="text-sm text-muted-foreground">Years Experience</div>
+              <div className="text-2xl lg:text-3xl font-bold text-primary mb-1">25+</div>
+              <div className="text-sm text-muted-foreground">Years Luxury Experience</div>
             </div>
             
             <div className="group text-center p-6 bg-card rounded-2xl shadow-depth hover:shadow-automotive transition-all duration-300 hover:-translate-y-2">
               <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl w-fit group-hover:from-primary/20 group-hover:to-primary/10 transition-all duration-300">
                 <Users className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
               </div>
-              <div className="text-2xl lg:text-3xl font-bold text-primary mb-1">1000+</div>
-              <div className="text-sm text-muted-foreground">Happy Customers</div>
+              <div className="text-2xl lg:text-3xl font-bold text-primary mb-1">500+</div>
+              <div className="text-sm text-muted-foreground">Luxury Vehicles Serviced</div>
             </div>
             
             <div className="group text-center p-6 bg-card rounded-2xl shadow-depth hover:shadow-automotive transition-all duration-300 hover:-translate-y-2">

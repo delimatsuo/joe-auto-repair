@@ -17,24 +17,24 @@ const HeroSection = () => {
       <div className="relative z-10 text-center text-white max-w-6xl px-4 py-20">
         {/* Trust Badge - More Prominent */}
         <div className="inline-flex items-center gap-3 bg-white/20 border border-white/30 rounded-full px-6 py-3 mb-8 backdrop-blur-sm">
-          <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
-          <span className="text-white font-bold text-base">ASE Certified • 20+ Years Experience • BMW Specialist</span>
+          <div className="w-3 h-3 bg-warning rounded-full animate-pulse"></div>
+          <span className="text-white font-bold text-base">Luxury Specialist • Bentley • Ferrari • Lamborghini</span>
         </div>
         
         {/* Main Headline - Larger and More Impactful */}
         <h1 className="text-7xl md:text-8xl font-black mb-6 leading-tight tracking-tight">
-          <span className="block text-white">Joe's Auto Repair</span>
+          <span className="block text-white">Joe's Luxury Auto</span>
         </h1>
         
         {/* Tagline with Better Typography */}
         <div className="text-4xl md:text-5xl font-bold mb-8 text-transparent bg-gradient-to-r from-warning via-yellow-300 to-warning bg-clip-text">
-          Honest Service. Pro Results.
+          Where Excellence Meets Precision
         </div>
         
         {/* Enhanced Description */}
         <p className="text-xl md:text-2xl mb-12 max-w-4xl mx-auto leading-relaxed text-gray-100 font-medium">
-          Serving Rochdale, MA with trusted automotive repair and maintenance services. 
-          From routine maintenance to complex engine diagnostics, our expert team delivers excellence every time.
+          Rochdale's premier destination for Bentley, Ferrari, and Lamborghini service. 
+          Our master technicians deliver uncompromising excellence for the world's finest automobiles.
         </p>
         
         {/* CTA Buttons - More Professional Layout */}

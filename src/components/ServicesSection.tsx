@@ -12,40 +12,40 @@ import {
 
 const services = [
   {
-    icon: Gauge,
-    title: "Oil Changes & Maintenance",
-    description: "Regular maintenance to keep your vehicle running smoothly",
-    features: ["Full synthetic & conventional oil", "Filter replacement", "Multi-point inspection"]
+    icon: Settings,
+    title: "Precision Engine Diagnostics",
+    description: "Advanced computer diagnostics for complex luxury powertrains",
+    features: ["Factory-level scan tools", "ECU programming", "Performance optimization"]
   },
   {
     icon: Zap,
-    title: "Brake Service & Repair",
-    description: "Complete brake system inspection and repair services",
-    features: ["Brake pad replacement", "Rotor resurfacing", "Brake fluid service"]
+    title: "Exotic Brake Systems",
+    description: "Carbon ceramic and high-performance brake service",
+    features: ["Carbon ceramic service", "Brembo system expertise", "Track-ready upgrades"]
   },
   {
-    icon: Settings,
-    title: "Engine Repair & Diagnostics",
-    description: "Advanced diagnostic and repair for all engine issues",
-    features: ["Computer diagnostics", "Engine rebuilds", "Performance tuning"]
+    icon: Gauge,
+    title: "Luxury Maintenance Programs",
+    description: "Comprehensive maintenance following factory specifications",
+    features: ["Exotic oil formulations", "OEM filter systems", "Precision calibration"]
   },
   {
     icon: Car,
-    title: "Tire & Wheel Service",
-    description: "Complete tire services and wheel alignment",
-    features: ["Tire installation", "Wheel balancing", "Alignment service"]
+    title: "Suspension & Handling",
+    description: "Adaptive suspension and performance handling systems",
+    features: ["Air suspension repair", "Magnetic ride control", "Track alignment"]
   },
   {
     icon: Battery,
-    title: "Battery & Electrical",
-    description: "Electrical system diagnosis and battery replacement",
-    features: ["Battery testing", "Alternator service", "Starter repair"]
+    title: "Advanced Electronics",
+    description: "Complex electrical systems and hybrid technology",
+    features: ["Infotainment diagnostics", "Hybrid system service", "Custom programming"]
   },
   {
     icon: Wrench,
-    title: "BMW & Luxury Specialist",
-    description: "Specialized service for BMW and luxury vehicles",
-    features: ["Factory-trained expertise", "OEM parts", "Advanced diagnostics"]
+    title: "Concierge Service",
+    description: "White-glove pickup, delivery, and storage services",
+    features: ["Climate-controlled storage", "Collection transport", "Emergency service"]
   }
 ];
 
@@ -55,11 +55,11 @@ const ServicesSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Our Services
+            Luxury Services
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            From routine maintenance to complex repairs, we provide comprehensive 
-            automotive services you can trust.
+            Specialized service programs designed exclusively for Bentley, Ferrari, 
+            and Lamborghini vehicles with uncompromising attention to detail.
           </p>
         </div>
 
@@ -93,9 +93,9 @@ const ServicesSection = () => {
         </div>
 
         <div className="text-center bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl p-8 shadow-depth">
-          <h3 className="text-2xl font-bold mb-4">Ready to get started?</h3>
+          <h3 className="text-2xl font-bold mb-4">Experience Luxury Service Excellence</h3>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Don't wait for small problems to become big ones. Schedule your service today and experience the Joe's Auto Repair difference.
+            Your exotic automobile deserves nothing less than perfection. Schedule your luxury service appointment today.
           </p>
           <button 
             className="bg-primary hover:bg-primary-hover text-primary-foreground font-bold text-lg px-8 py-4 rounded-lg shadow-automotive transition-all duration-300 hover:scale-105"
