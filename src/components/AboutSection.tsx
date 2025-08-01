@@ -25,7 +25,7 @@ const AboutSection = () => {
             </p>
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-16 items-start">
+          <div className="grid lg:grid-cols-2 gap-16 items-start mb-16">
             {/* Content Column */}
             <div className="space-y-8">
               <div>
@@ -45,7 +45,7 @@ const AboutSection = () => {
                   diagnostic equipment ensures every vehicle receives the best care possible.
                 </p>
                 
-                <div className="flex flex-wrap gap-3 mb-8">
+                <div className="flex flex-wrap gap-3">
                   <div className="inline-flex items-center gap-2 bg-success/10 border border-success/20 rounded-full px-4 py-2">
                     <div className="w-2 h-2 bg-success rounded-full"></div>
                     <span className="text-success font-semibold text-sm">ASE Certified</span>
@@ -60,65 +60,15 @@ const AboutSection = () => {
                   </div>
                 </div>
               </div>
-
-              {/* Stats Grid */}
-              <div className="grid grid-cols-2 gap-4">
-                <div className="group text-center p-6 bg-card rounded-2xl shadow-depth hover:shadow-automotive transition-all duration-300 hover:-translate-y-2">
-                  <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl w-fit group-hover:from-primary/20 group-hover:to-primary/10 transition-all duration-300">
-                    <Clock className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
-                  </div>
-                  <div className="text-2xl font-bold text-primary mb-1">20+</div>
-                  <div className="text-sm text-muted-foreground">Years Experience</div>
-                </div>
-                
-                <div className="group text-center p-6 bg-card rounded-2xl shadow-depth hover:shadow-automotive transition-all duration-300 hover:-translate-y-2">
-                  <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl w-fit group-hover:from-primary/20 group-hover:to-primary/10 transition-all duration-300">
-                    <Users className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
-                  </div>
-                  <div className="text-2xl font-bold text-primary mb-1">1000+</div>
-                  <div className="text-sm text-muted-foreground">Happy Customers</div>
-                </div>
-                
-                <div className="group text-center p-6 bg-card rounded-2xl shadow-depth hover:shadow-automotive transition-all duration-300 hover:-translate-y-2">
-                  <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-warning/10 to-warning/5 rounded-xl w-fit group-hover:from-warning/20 group-hover:to-warning/10 transition-all duration-300">
-                    <div className="flex justify-center">
-                      <div className="flex items-center gap-1">
-                        {[...Array(5)].map((_, i) => (
-                          <Star key={i} className="h-4 w-4 text-warning fill-current group-hover:scale-110 transition-transform" />
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-2xl font-bold text-primary mb-1">5.0★</div>
-                  <div className="text-sm text-muted-foreground mb-2">Google Rating</div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => window.open(googleReviewsUrl, '_blank')}
-                    className="text-xs hover:bg-primary hover:text-primary-foreground transition-colors"
-                  >
-                    <ExternalLink className="h-3 w-3 mr-1" />
-                    Reviews
-                  </Button>
-                </div>
-                
-                <div className="group text-center p-6 bg-card rounded-2xl shadow-depth hover:shadow-automotive transition-all duration-300 hover:-translate-y-2">
-                  <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-success/10 to-success/5 rounded-xl w-fit group-hover:from-success/20 group-hover:to-success/10 transition-all duration-300">
-                    <CheckCircle className="h-6 w-6 text-success group-hover:scale-110 transition-transform" />
-                  </div>
-                  <div className="text-2xl font-bold text-primary mb-1">100%</div>
-                  <div className="text-sm text-muted-foreground">Satisfaction</div>
-                </div>
-              </div>
             </div>
 
             {/* Joe's Photo */}
-            <div className="lg:sticky lg:top-8">
+            <div>
               <div className="relative">
                 <img
                   src="/lovable-uploads/5c926083-944b-4989-a747-4f5b6179b713.png"
                   alt="Joe standing proudly next to a Lamborghini at his auto repair shop"
-                  className="w-full h-96 lg:h-[600px] object-cover rounded-2xl shadow-automotive"
+                  className="w-full h-96 lg:h-[500px] object-cover rounded-2xl shadow-automotive"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
                 <div className="absolute bottom-6 left-6 text-white">
@@ -126,6 +76,56 @@ const AboutSection = () => {
                   <p className="text-white/90">Passionate about excellence in automotive care</p>
                 </div>
               </div>
+            </div>
+          </div>
+
+          {/* Stats Grid - Full Width Below */}
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="group text-center p-6 bg-card rounded-2xl shadow-depth hover:shadow-automotive transition-all duration-300 hover:-translate-y-2">
+              <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl w-fit group-hover:from-primary/20 group-hover:to-primary/10 transition-all duration-300">
+                <Clock className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
+              </div>
+              <div className="text-2xl lg:text-3xl font-bold text-primary mb-1">20+</div>
+              <div className="text-sm text-muted-foreground">Years Experience</div>
+            </div>
+            
+            <div className="group text-center p-6 bg-card rounded-2xl shadow-depth hover:shadow-automotive transition-all duration-300 hover:-translate-y-2">
+              <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-primary/10 to-primary/5 rounded-xl w-fit group-hover:from-primary/20 group-hover:to-primary/10 transition-all duration-300">
+                <Users className="h-6 w-6 text-primary group-hover:scale-110 transition-transform" />
+              </div>
+              <div className="text-2xl lg:text-3xl font-bold text-primary mb-1">1000+</div>
+              <div className="text-sm text-muted-foreground">Happy Customers</div>
+            </div>
+            
+            <div className="group text-center p-6 bg-card rounded-2xl shadow-depth hover:shadow-automotive transition-all duration-300 hover:-translate-y-2">
+              <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-warning/10 to-warning/5 rounded-xl w-fit group-hover:from-warning/20 group-hover:to-warning/10 transition-all duration-300">
+                <div className="flex justify-center">
+                  <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="h-4 w-4 text-warning fill-current group-hover:scale-110 transition-transform" />
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="text-2xl lg:text-3xl font-bold text-primary mb-1">5.0★</div>
+              <div className="text-sm text-muted-foreground mb-2">Google Rating</div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => window.open(googleReviewsUrl, '_blank')}
+                className="text-xs hover:bg-primary hover:text-primary-foreground transition-colors"
+              >
+                <ExternalLink className="h-3 w-3 mr-1" />
+                Reviews
+              </Button>
+            </div>
+            
+            <div className="group text-center p-6 bg-card rounded-2xl shadow-depth hover:shadow-automotive transition-all duration-300 hover:-translate-y-2">
+              <div className="mx-auto mb-4 p-3 bg-gradient-to-br from-success/10 to-success/5 rounded-xl w-fit group-hover:from-success/20 group-hover:to-success/10 transition-all duration-300">
+                <CheckCircle className="h-6 w-6 text-success group-hover:scale-110 transition-transform" />
+              </div>
+              <div className="text-2xl lg:text-3xl font-bold text-primary mb-1">100%</div>
+              <div className="text-sm text-muted-foreground">Satisfaction</div>
             </div>
           </div>
         </div>
