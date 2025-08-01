@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button";
-import heroImage from "@/assets/hero-shop-exterior.jpg";
 
 const HeroSection = () => {
   return (
@@ -7,7 +6,7 @@ const HeroSection = () => {
       {/* Background Image with Enhanced Overlay */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-        style={{ backgroundImage: `url(${heroImage})` }}
+        style={{ backgroundImage: `url(/lovable-uploads/e87abaab-6b88-42ed-8f64-e4fe3b59aeed.png)` }}
       >
         {/* Multi-layered overlay for depth */}
         <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-black/80"></div>
