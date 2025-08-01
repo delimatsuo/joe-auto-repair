@@ -18,10 +18,10 @@ const AboutSection = () => {
               <span className="text-primary font-semibold text-sm">About Our Shop</span>
             </div>
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Meet Joe - Master of Luxury Automobiles
+              Meet Joe - Your Luxury Specialist
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              25+ years perfecting the art of Bentley, Ferrari, and Lamborghini service
+              25+ years of dedicated experience with the world's finest automobiles
             </p>
           </div>
 
@@ -30,7 +30,7 @@ const AboutSection = () => {
             <div className="space-y-8">
               <div>
                 <h3 className="text-3xl font-bold mb-6 text-foreground">
-                  Crafted for Perfection, Built on Precision
+                  Expertise You Can Trust
                 </h3>
                 <p className="text-muted-foreground mb-6 leading-relaxed">
                   For over 25 years, Joe has dedicated his career to mastering the intricate engineering 
