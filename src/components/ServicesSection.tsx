@@ -13,9 +13,9 @@ import {
 const services = [
   {
     icon: Settings,
-    title: "Precision Engine Diagnostics",
-    description: "Advanced computer diagnostics for complex luxury powertrains",
-    features: ["Factory-level scan tools", "ECU programming", "Performance optimization"]
+    title: "Factory-Level Diagnostics",
+    description: "Advanced computer diagnostics using manufacturer-grade equipment",
+    features: ["OEM scan tools", "ECU programming", "Performance optimization"]
   },
   {
     icon: Zap,
@@ -25,9 +25,9 @@ const services = [
   },
   {
     icon: Gauge,
-    title: "Luxury Maintenance Programs",
-    description: "Comprehensive maintenance following factory specifications",
-    features: ["Exotic oil formulations", "OEM filter systems", "Precision calibration"]
+    title: "Precision Maintenance",
+    description: "Flexible approach to maintenance following exact specifications",
+    features: ["Genuine OEM parts", "Factory service intervals", "Cost-effective solutions"]
   },
   {
     icon: Car,
@@ -38,14 +38,14 @@ const services = [
   {
     icon: Battery,
     title: "Advanced Electronics",
-    description: "Complex electrical systems and hybrid technology",
-    features: ["Infotainment diagnostics", "Hybrid system service", "Custom programming"]
+    description: "State-of-the-art facilities for complex electrical diagnostics",
+    features: ["Factory-level diagnostics", "Ongoing technical training", "Precision repairs"]
   },
   {
     icon: Wrench,
-    title: "Concierge Service",
-    description: "White-glove pickup, delivery, and storage services",
-    features: ["Climate-controlled storage", "Collection transport", "Emergency service"]
+    title: "Professional Service",
+    description: "Reliable problem-solving with transparent communication",
+    features: ["Flexible repair approach", "Detailed explanations", "Trusted reliability"]
   }
 ];
 
@@ -55,11 +55,11 @@ const ServicesSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
-            Luxury Services
+            Factory-Level Service
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Specialized service programs designed exclusively for Bentley, Ferrari, 
-            and Lamborghini vehicles with uncompromising attention to detail.
+            State-of-the-art diagnostics and precision service using OEM parts and 
+            genuine components for unmatched reliability.
           </p>
         </div>
 
@@ -93,9 +93,9 @@ const ServicesSection = () => {
         </div>
 
         <div className="text-center bg-gradient-to-r from-primary/5 to-accent/5 rounded-2xl p-8 shadow-depth">
-          <h3 className="text-2xl font-bold mb-4">Experience Luxury Service Excellence</h3>
+          <h3 className="text-2xl font-bold mb-4">Precision Service You Can Trust</h3>
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
-            Your exotic automobile deserves nothing less than perfection. Schedule your luxury service appointment today.
+            State-of-the-art facilities and factory-trained expertise for reliable, cost-effective service.
           </p>
           <button 
             className="bg-primary hover:bg-primary-hover text-primary-foreground font-bold text-lg px-8 py-4 rounded-lg shadow-automotive transition-all duration-300 hover:scale-105"

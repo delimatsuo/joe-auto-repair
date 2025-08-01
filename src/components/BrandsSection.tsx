@@ -14,7 +14,7 @@ const brands = [
     name: "Ferrari", 
     image: ferrariImage,
     alt: "Ferrari 488 GTB at Joe's Auto Repair",
-    description: "Italian-trained technicians specializing in Ferrari performance and precision service"
+    description: "Ferrari-certified technicians specializing in performance diagnostics and precision service"
   },
   {
     name: "Lamborghini",
