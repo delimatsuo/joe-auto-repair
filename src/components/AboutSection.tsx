@@ -26,7 +26,23 @@ const AboutSection = () => {
           </div>
 
           <div className="grid lg:grid-cols-2 gap-16 items-center">
-            <div className="space-y-6">
+            {/* Joe's Photo */}
+            <div className="order-2 lg:order-1">
+              <div className="relative">
+                <img
+                  src="/lovable-uploads/5c926083-944b-4989-a747-4f5b6179b713.png"
+                  alt="Joe standing proudly next to a Lamborghini at his auto repair shop"
+                  className="w-full h-96 lg:h-[500px] object-cover rounded-2xl shadow-automotive"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-2xl"></div>
+                <div className="absolute bottom-6 left-6 text-white">
+                  <h3 className="text-2xl font-bold mb-2">Meet Joe</h3>
+                  <p className="text-white/90">Passionate about excellence in automotive care</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-6 order-1 lg:order-2">
               <h3 className="text-3xl font-bold mb-6 text-foreground">
                 Built on Trust, Driven by Excellence
               </h3>
