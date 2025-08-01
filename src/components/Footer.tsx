@@ -4,8 +4,6 @@ import {
   MapPin, 
   Mail, 
   Clock, 
-  Facebook, 
-  Instagram, 
   Star,
   ExternalLink
 } from "lucide-react";
@@ -74,17 +72,9 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Social Media & Reviews */}
+          {/* Reviews */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
-            <div className="flex gap-4 mb-4">
-              <div className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors cursor-pointer">
-                <Facebook className="h-5 w-5" />
-              </div>
-              <div className="p-2 bg-white/10 rounded-full hover:bg-white/20 transition-colors cursor-pointer">
-                <Instagram className="h-5 w-5" />
-              </div>
-            </div>
+            <h4 className="text-lg font-semibold mb-4">Customer Reviews</h4>
             
             <div className="text-sm">
               <div className="flex items-center gap-1 mb-2">
