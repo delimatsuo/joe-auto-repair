@@ -37,9 +37,10 @@ const AboutSection = () => {
                 to provide transparent, reliable auto repair services to his community.
               </p>
               <p className="text-muted-foreground mb-6 leading-relaxed">
-                Joe specializes in BMW and luxury vehicle repair, but welcomes all makes and models. 
-                His commitment to ongoing education and the latest diagnostic equipment ensures your 
-                vehicle receives the best care possible.
+                Today, Joe leads a skilled team of expert technicians who share his commitment to 
+                excellence. Together, they specialize in BMW, Audi, and Land Rover repair, while 
+                welcoming all makes and models. Their dedication to ongoing education and the latest 
+                diagnostic equipment ensures every vehicle receives the best care possible.
               </p>
               
               <div className="flex flex-wrap gap-3 mb-8">
