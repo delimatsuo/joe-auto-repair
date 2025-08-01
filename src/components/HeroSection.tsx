@@ -17,9 +17,9 @@ const HeroSection = () => {
       {/* Enhanced Content */}
       <div className="relative z-10 text-center text-white max-w-6xl px-4 py-20">
         {/* Trust Badge - More Prominent */}
-        <div className="inline-flex items-center gap-3 bg-success/20 border border-success/30 rounded-full px-6 py-3 mb-8 backdrop-blur-sm">
-          <div className="w-3 h-3 bg-success rounded-full animate-pulse"></div>
-          <span className="text-success font-bold text-base">ASE Certified • 20+ Years Experience • BMW Specialist</span>
+        <div className="inline-flex items-center gap-3 bg-white/20 border border-white/30 rounded-full px-6 py-3 mb-8 backdrop-blur-sm">
+          <div className="w-3 h-3 bg-white rounded-full animate-pulse"></div>
+          <span className="text-white font-bold text-base">ASE Certified • 20+ Years Experience • BMW Specialist</span>
         </div>
         
         {/* Main Headline - Larger and More Impactful */}
@@ -85,11 +85,11 @@ const HeroSection = () => {
           </div>
           
           <div className="flex flex-col items-center gap-3 p-6 bg-white/10 rounded-2xl backdrop-blur-sm border border-white/20">
-            <div className="w-12 h-12 bg-success/20 rounded-full flex items-center justify-center">
-              <span className="text-success font-bold text-2xl">✓</span>
+            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center">
+              <span className="text-white font-bold text-2xl">✓</span>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-bold text-success">20+</div>
+              <div className="text-3xl font-bold text-white">20+</div>
               <div className="text-white/90 font-medium">Years Experience</div>
               <div className="text-white/70 text-sm">Expert Service</div>
             </div>
