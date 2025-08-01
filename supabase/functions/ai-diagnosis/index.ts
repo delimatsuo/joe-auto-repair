@@ -70,14 +70,27 @@ serve(async (req) => {
     // Add uploaded files to the request if any exist
     if (files && files.length > 0) {
       for (const file of files) {
-        if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
-          console.log(`Adding ${file.type} file: ${file.name}`);
+        // Gemini supports images and limited video formats (MP4 only)
+        if (file.type.startsWith('image/')) {
+          console.log(`Adding image file: ${file.name}`);
           contents[0].parts.push({
             inlineData: {
               mimeType: file.type,
               data: file.data
             }
           });
+        } else if (file.type === 'video/mp4') {
+          console.log(`Adding MP4 video file: ${file.name}`);
+          contents[0].parts.push({
+            inlineData: {
+              mimeType: file.type,
+              data: file.data
+            }
+          });
+        } else if (file.type.startsWith('video/') || file.type === 'video/quicktime') {
+          console.log(`Skipping unsupported video format: ${file.name} (${file.type})`);
+          // Add note about the video file in the prompt instead
+          fullPrompt += `\nNote: A video file (${file.name}) was uploaded but cannot be processed due to format limitations. Customer should describe what they observed in the video.\n`;
         }
       }
     }
