@@ -40,8 +40,26 @@ export const AIDiagnosisSection = () => {
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = Array.from(event.target.files || []);
-    const imageFiles = files.filter(file => file.type.startsWith('image/') || file.type.startsWith('video/'));
-    setUploadedImages(prev => [...prev, ...imageFiles]);
+    // Support common video formats including .mov files
+    const supportedFiles = files.filter(file => 
+      file.type.startsWith('image/') || 
+      file.type.startsWith('video/') ||
+      file.type === 'video/quicktime' ||
+      file.name.toLowerCase().endsWith('.mov') ||
+      file.name.toLowerCase().endsWith('.mp4') ||
+      file.name.toLowerCase().endsWith('.avi') ||
+      file.name.toLowerCase().endsWith('.webm')
+    );
+    
+    if (supportedFiles.length !== files.length) {
+      toast({
+        title: "Some files skipped",
+        description: "Only image and video files are supported",
+        variant: "default",
+      });
+    }
+    
+    setUploadedImages(prev => [...prev, ...supportedFiles]);
   };
 
   const removeImage = (index: number) => {
