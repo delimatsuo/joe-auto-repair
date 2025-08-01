@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, Clock, Phone, MapPin, Star, Wrench, Shield, Award } from "lucide-react";
+import { Calendar, Clock, Phone, MapPin, Star, Wrench, Shield, Award, Brain } from "lucide-react";
 
 const QuickActionsSection = () => {
   return (
@@ -27,21 +27,21 @@ const QuickActionsSection = () => {
             </CardContent>
           </Card>
 
-          {/* Emergency Service */}
+          {/* AI Diagnosis */}
           <Card className="group hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-2 hover:border-warning/30">
             <CardContent className="p-8 text-center">
               <div className="mx-auto mb-6 p-4 bg-gradient-to-br from-warning/10 to-warning/5 rounded-xl w-fit group-hover:from-warning/20 group-hover:to-warning/10 transition-all duration-300">
-                <Phone className="h-10 w-10 text-warning group-hover:scale-110 transition-transform" />
+                <Brain className="h-10 w-10 text-warning group-hover:scale-110 transition-transform" />
               </div>
-              <h3 className="text-2xl font-bold text-foreground mb-4">Emergency Service</h3>
+              <h3 className="text-2xl font-bold text-foreground mb-4">Free AI Diagnosis</h3>
               <p className="text-muted-foreground mb-6 leading-relaxed">
-                Car trouble? Call us now for immediate assistance. We're here when you need us most.
+                Get instant insights about your car problems. Our AI-powered diagnostic tool helps identify issues quickly and accurately.
               </p>
               <Button 
                 className="w-full bg-warning hover:bg-warning/90 text-warning-foreground font-bold py-3"
-                onClick={() => window.open('tel:+17726185558', '_self')}
+                onClick={() => document.getElementById('ai-diagnosis')?.scrollIntoView({ behavior: 'smooth' })}
               >
-                Call (772) 618-5558
+                Try AI Diagnosis
               </Button>
             </CardContent>
           </Card>
