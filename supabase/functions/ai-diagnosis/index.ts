@@ -78,12 +78,16 @@ serve(async (req) => {
             }
           });
         } else if (file.type.startsWith('video/')) {
-          console.log(`Video file detected: ${file.name} (${file.type}) - ${file.size} bytes`);
-          console.log('Note: Large video files may cause processing issues. Consider using File API for videos in production.');
-          // For now, we'll skip video processing to avoid the 500 error
-          // and add a note to the prompt instead
-          const videoSizeMB = Math.round(file.size / 1024 / 1024 * 10) / 10;
-          contents[0].parts[0].text += `\n\nNote: A video file (${file.name}, ${videoSizeMB}MB) was uploaded but cannot be processed due to API limitations. Please describe what you observed in the video.\n`;
+          console.log(`Adding video file: ${file.name} (${file.type}) - ${file.size} bytes`);
+          
+          // For video files (including .mov), add them as inline data
+          // Gemini API officially supports video/mov and other video formats
+          contents[0].parts.push({
+            inlineData: {
+              mimeType: file.type,
+              data: file.data
+            }
+          });
         }
       }
     }
