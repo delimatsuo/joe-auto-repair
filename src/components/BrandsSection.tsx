@@ -1,25 +1,25 @@
-import bmwImage from "@/assets/bmw-specialist.jpg";
-import audiImage from "@/assets/audi-specialist.jpg";
-import landroverImage from "@/assets/landrover-specialist.jpg";
+import bentleyImage from "@/assets/bentley-luxury.jpg";
+import ferrariImage from "@/assets/ferrari-exotic.jpg";
+import lamborghiniImage from "@/assets/lamborghini-supercar.jpg";
 import { Card, CardContent } from "@/components/ui/card";
 
 const brands = [
   {
     name: "Bentley",
-    image: "/lovable-uploads/100c0add-6958-48f8-af23-8ed289b4637d.png",
-    alt: "Bentley vehicle at Joe's Luxury Auto",
+    image: bentleyImage,
+    alt: "Bentley Continental GT at Joe's Luxury Auto",
     description: "Master-level Bentley service with factory certification and genuine parts"
   },
   {
     name: "Ferrari", 
-    image: "/lovable-uploads/4cabc746-eb6c-4d0c-8b82-8b1ce5265c07.png",
-    alt: "Ferrari vehicle at Joe's Luxury Auto",
+    image: ferrariImage,
+    alt: "Ferrari 488 GTB at Joe's Luxury Auto",
     description: "Authorized Ferrari service center with Italian-trained technicians"
   },
   {
     name: "Lamborghini",
-    image: "/lovable-uploads/5c926083-944b-4989-a747-4f5b6179b713.png", 
-    alt: "Lamborghini vehicle at Joe's Luxury Auto",
+    image: lamborghiniImage, 
+    alt: "Lamborghini Huracan at Joe's Luxury Auto",
     description: "Specialized Lamborghini service with track-proven expertise"
   }
 ];
