@@ -52,7 +52,7 @@ const Footer = () => {
               <div className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5" />
                 <span>
-                  123 Main Street<br />
+                  81 Huntoon Memorial Hwy<br />
                   Rochdale, MA 01542
                 </span>
               </div>

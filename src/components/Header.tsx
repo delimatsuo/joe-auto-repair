@@ -21,7 +21,7 @@ const Header = () => {
               </div>
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
-                <span>123 Main St, Rochdale, MA</span>
+                <span>81 Huntoon Memorial Hwy, Rochdale, MA</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4" />

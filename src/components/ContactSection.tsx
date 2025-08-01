@@ -58,7 +58,7 @@ const ContactSection = () => {
                       onClick={() => window.open(googleMapsUrl, '_blank')}
                       className="text-lg font-semibold text-primary hover:text-primary-hover transition-colors group"
                     >
-                      123 Main Street<br />
+                      81 Huntoon Memorial Hwy<br />
                       Rochdale, MA 01542
                       <ExternalLink className="h-4 w-4 ml-2 inline group-hover:translate-x-1 transition-transform" />
                     </button>
