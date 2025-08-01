@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Star, Quote, ExternalLink } from "lucide-react";
-import { GoogleReviewsExtractor } from "./GoogleReviewsExtractor";
 
 const testimonials = [
   {
@@ -34,34 +33,24 @@ const testimonials = [
 
 const TestimonialsSection = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [reviews, setReviews] = useState(testimonials);
-  const [showExtractor, setShowExtractor] = useState(false);
 
   const googleReviewsUrl = "https://www.google.com/maps/place/Joe's+Auto+Repair/@42.2103669,-71.9067418,17z/data=!4m8!3m7!1s0x89e406ebaee3a815:0xf71bf5d0866f54bc!8m2!3d42.2103722!4d-71.9067439!9m1!1b1!16s%2Fg%2F11bc8zg_4f";
-
-  const handleReviewsExtracted = (extractedReviews: Array<{name: string, rating: number, text: string, date?: string}>) => {
-    if (extractedReviews.length > 0) {
-      setReviews(extractedReviews);
-      setCurrentIndex(0);
-      setShowExtractor(false);
-    }
-  };
 
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => 
-        prevIndex === reviews.length - 1 ? 0 : prevIndex + 1
+        prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1
       );
     }, 5000);
     return () => clearInterval(interval);
-  }, [reviews.length]);
+  }, []);
 
   const goToPrevious = () => {
-    setCurrentIndex(currentIndex === 0 ? reviews.length - 1 : currentIndex - 1);
+    setCurrentIndex(currentIndex === 0 ? testimonials.length - 1 : currentIndex - 1);
   };
 
   const goToNext = () => {
-    setCurrentIndex(currentIndex === reviews.length - 1 ? 0 : currentIndex + 1);
+    setCurrentIndex(currentIndex === testimonials.length - 1 ? 0 : currentIndex + 1);
   };
 
   return (
@@ -74,7 +63,7 @@ const TestimonialsSection = () => {
           <p className="text-lg text-muted-foreground mb-6">
             Don't just take our word for it - hear from our satisfied customers
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+          <div className="flex justify-center mb-8">
             <Button
               variant="outline"
               onClick={() => window.open(googleReviewsUrl, '_blank')}
@@ -83,21 +72,8 @@ const TestimonialsSection = () => {
               <ExternalLink className="h-4 w-4" />
               View All Google Reviews
             </Button>
-            <Button
-              variant="ghost"
-              onClick={() => setShowExtractor(!showExtractor)}
-              className="inline-flex items-center gap-2"
-            >
-              {showExtractor ? 'Hide' : 'Update'} Reviews
-            </Button>
           </div>
         </div>
-
-        {showExtractor && (
-          <div className="mb-8">
-            <GoogleReviewsExtractor onReviewsExtracted={handleReviewsExtracted} />
-          </div>
-        )}
 
         <div className="max-w-4xl mx-auto">
           <div className="relative">
@@ -107,17 +83,17 @@ const TestimonialsSection = () => {
                   <Quote className="h-12 w-12 text-primary mx-auto mb-6 opacity-50" />
                   
                   <div className="flex justify-center mb-4">
-                    {[...Array(reviews[currentIndex].rating)].map((_, i) => (
+                    {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
                       <Star key={i} className="h-5 w-5 text-warning fill-current" />
                     ))}
                   </div>
                   
                   <blockquote className="text-base md:text-lg text-foreground mb-6 font-medium leading-relaxed px-4">
-                    "{reviews[currentIndex].text}"
+                    "{testimonials[currentIndex].text}"
                   </blockquote>
                   
                   <cite className="text-primary font-semibold">
-                    — {reviews[currentIndex].name}
+                    — {testimonials[currentIndex].name}
                   </cite>
                   
                   <p className="text-xs text-muted-foreground mt-2">
@@ -149,7 +125,7 @@ const TestimonialsSection = () => {
 
           {/* Dots Indicator */}
           <div className="flex justify-center mt-6 space-x-2">
-            {reviews.map((_, index) => (
+            {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
