@@ -7,8 +7,8 @@ const brands = [
   {
     name: "Bentley",
     image: bentleyImage,
-    alt: "Bentley Continental GT at Joe's Auto Repair",
-    description: "Factory-trained specialists with European certification and genuine parts expertise"
+    alt: "Bentley Continental GT specialist service at Joe's Auto Repair",
+    description: "Expert technicians providing factory-level Bentley service at competitive rates with genuine parts"
   },
   {
     name: "Ferrari", 
@@ -37,14 +37,14 @@ const BrandsSection = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+        <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
           {brands.map((brand, index) => (
-            <Card key={index} className="group overflow-hidden hover:shadow-xl transition-all duration-300">
+            <Card key={index} className="group overflow-hidden hover:shadow-xl transition-all duration-300 hover:scale-105">
               <div className="relative overflow-hidden">
                 <img
                   src={brand.image}
                   alt={brand.alt}
-                  className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-64 md:h-72 object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-4 left-4 right-4 text-white">

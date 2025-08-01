@@ -34,15 +34,15 @@ const AboutSection = () => {
                 </h3>
                 <p className="text-muted-foreground mb-6 leading-relaxed">
                   For over 25 years, Joe has dedicated his career to mastering the intricate engineering 
-                  of the world's most prestigious automobiles. What began as a passion for exotic machinery 
-                  evolved into an exclusive specialty workshop focused solely on Bentley, Ferrari, and 
-                  Lamborghini vehicles.
+                  of the world's most prestigious automobiles. What began as a passion for automotive excellence 
+                  evolved into an exclusive specialty workshop focused on luxury European brands including 
+                  Bentley, Ferrari, Lamborghini, BMW, Audi, and Land Rover vehicles.
                 </p>
                 <p className="text-muted-foreground mb-6 leading-relaxed">
                   Joe's team consists of factory-certified master technicians who undergo continuous 
-                  specialized training at European facilities. Each craftsman brings decades of experience 
-                  working exclusively with these ultra-luxury marques, ensuring your investment receives 
-                  the meticulous care it deserves.
+                  specialized training. Each craftsman brings decades of experience working exclusively 
+                  with these ultra-luxury European marques, ensuring your investment receives the 
+                  meticulous care it deserves at competitive rates.
                 </p>
                 
                 <div className="flex flex-wrap gap-3">
