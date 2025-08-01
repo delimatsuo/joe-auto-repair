@@ -97,7 +97,10 @@ const ServicesSection = () => {
           <p className="text-muted-foreground mb-6 max-w-2xl mx-auto">
             Don't wait for small problems to become big ones. Schedule your service today and experience the Joe's Auto Repair difference.
           </p>
-          <button className="bg-primary hover:bg-primary-hover text-primary-foreground font-bold text-lg px-8 py-4 rounded-lg shadow-automotive transition-all duration-300 hover:scale-105">
+          <button 
+            className="bg-primary hover:bg-primary-hover text-primary-foreground font-bold text-lg px-8 py-4 rounded-lg shadow-automotive transition-all duration-300 hover:scale-105"
+            onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
+          >
             Schedule Your Service Today
           </button>
         </div>
