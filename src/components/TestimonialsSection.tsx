@@ -101,9 +101,9 @@ const TestimonialsSection = () => {
 
         <div className="max-w-4xl mx-auto">
           <div className="relative">
-            <Card className="min-h-[250px]">
-              <CardContent className="p-8">
-                <div className="text-center">
+            <Card className="min-h-[280px]">
+              <CardContent className="p-6 md:p-8">
+                <div className="text-center max-w-3xl mx-auto">
                   <Quote className="h-12 w-12 text-primary mx-auto mb-6 opacity-50" />
                   
                   <div className="flex justify-center mb-4">
@@ -112,7 +112,7 @@ const TestimonialsSection = () => {
                     ))}
                   </div>
                   
-                  <blockquote className="text-lg md:text-xl text-foreground mb-6 font-medium leading-relaxed">
+                  <blockquote className="text-base md:text-lg text-foreground mb-6 font-medium leading-relaxed px-4">
                     "{reviews[currentIndex].text}"
                   </blockquote>
                   
