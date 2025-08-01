@@ -78,16 +78,74 @@ serve(async (req) => {
             }
           });
         } else if (file.type.startsWith('video/')) {
-          console.log(`Adding video file: ${file.name} (${file.type}) - ${file.size} bytes`);
+          console.log(`Video file detected: ${file.name} (${file.type}) - ${file.size} bytes`);
           
-          // For video files (including .mov), add them as inline data
-          // Gemini API officially supports video/mov and other video formats
-          contents[0].parts.push({
-            inlineData: {
-              mimeType: file.type,
-              data: file.data
+          // For video files, especially large ones or .mov files, use Files API instead of inline data
+          // This is more reliable for larger video files and .mov format
+          try {
+            console.log('Uploading video via Files API...');
+            
+            // Convert base64 data back to binary
+            const binaryData = Uint8Array.from(atob(file.data), c => c.charCodeAt(0));
+            
+            // Create a file upload request to Gemini Files API
+            const uploadResponse = await fetch(`https://generativelanguage.googleapis.com/upload/v1beta/files?key=${geminiApiKey}`, {
+              method: 'POST',
+              headers: {
+                'X-Goog-Upload-Protocol': 'resumable',
+                'X-Goog-Upload-Command': 'start',
+                'X-Goog-Upload-Header-Content-Length': binaryData.length.toString(),
+                'X-Goog-Upload-Header-Content-Type': file.type,
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                file: {
+                  display_name: file.name
+                }
+              })
+            });
+
+            if (!uploadResponse.ok) {
+              throw new Error(`Upload start failed: ${uploadResponse.status}`);
             }
-          });
+
+            const uploadUrl = uploadResponse.headers.get('x-goog-upload-url');
+            if (!uploadUrl) {
+              throw new Error('No upload URL received');
+            }
+
+            // Upload the actual file data
+            const fileUploadResponse = await fetch(uploadUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Length': binaryData.length.toString(),
+                'X-Goog-Upload-Offset': '0',
+                'X-Goog-Upload-Command': 'upload, finalize',
+              },
+              body: binaryData
+            });
+
+            if (!fileUploadResponse.ok) {
+              throw new Error(`File upload failed: ${fileUploadResponse.status}`);
+            }
+
+            const fileInfo = await fileUploadResponse.json();
+            console.log('Video uploaded successfully:', fileInfo.file.uri);
+
+            // Add the file reference to the content
+            contents[0].parts.push({
+              fileData: {
+                mimeType: file.type,
+                fileUri: fileInfo.file.uri
+              }
+            });
+
+          } catch (uploadError) {
+            console.error('Video upload failed:', uploadError);
+            // Fallback: add a note about the video instead
+            const videoSizeMB = Math.round(file.size / 1024 / 1024 * 10) / 10;
+            contents[0].parts[0].text += `\n\nNote: A video file (${file.name}, ${videoSizeMB}MB) was uploaded but could not be processed due to upload limitations. Please describe what you observed in the video.\n`;
+          }
         }
       }
     }
