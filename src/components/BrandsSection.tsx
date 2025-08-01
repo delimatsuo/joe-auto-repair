@@ -7,19 +7,19 @@ const brands = [
   {
     name: "Bentley",
     image: bentleyImage,
-    alt: "Bentley Continental GT at Joe's Luxury Auto",
+    alt: "Bentley Continental GT at Joe's Auto Repair",
     description: "Master-level Bentley service with factory certification and genuine parts"
   },
   {
     name: "Ferrari", 
     image: ferrariImage,
-    alt: "Ferrari 488 GTB at Joe's Luxury Auto",
+    alt: "Ferrari 488 GTB at Joe's Auto Repair",
     description: "Authorized Ferrari service center with Italian-trained technicians"
   },
   {
     name: "Lamborghini",
     image: lamborghiniImage, 
-    alt: "Lamborghini Huracan at Joe's Luxury Auto",
+    alt: "Lamborghini Huracan at Joe's Auto Repair",
     description: "Specialized Lamborghini service with track-proven expertise"
   }
 ];

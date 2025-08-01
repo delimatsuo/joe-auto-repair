@@ -23,7 +23,7 @@ const HeroSection = () => {
         
         {/* Main Headline - Larger and More Impactful */}
         <h1 className="text-7xl md:text-8xl font-black mb-6 leading-tight tracking-tight">
-          <span className="block text-white">Joe's Luxury Auto</span>
+          <span className="block text-white">Joe's Auto Repair</span>
         </h1>
         
         {/* Tagline with Better Typography */}
