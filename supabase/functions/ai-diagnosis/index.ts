@@ -66,129 +66,18 @@ serve(async (req) => {
       }
     ];
 
+
     // Add uploaded files to the request if any exist
     if (files && files.length > 0) {
       for (const file of files) {
-        if (file.type.startsWith('image/')) {
-          console.log(`Adding image file: ${file.name}`);
+        if (file.type.startsWith('image/') || file.type.startsWith('video/')) {
+          console.log(`Adding ${file.type} file: ${file.name}`);
           contents[0].parts.push({
             inlineData: {
               mimeType: file.type,
               data: file.data
             }
           });
-        } else if (file.type.startsWith('video/')) {
-          console.log(`Processing video file: ${file.name} (${file.type}) - ${file.size} bytes`);
-          
-          // Normalize MIME type for .mov files (common issue found in forums)
-          let normalizedMimeType = file.type;
-          if (file.type === 'video/quicktime') {
-            normalizedMimeType = 'video/mov';
-            console.log('Normalized video/quicktime to video/mov');
-          }
-          
-          // For files larger than 10MB, use Files API (more reliable than inline)
-          if (file.size > 10 * 1024 * 1024) {
-            console.log('Large video file detected, using Files API...');
-            
-            try {
-              // Step 1: Convert base64 to binary
-              const binaryData = Uint8Array.from(atob(file.data), c => c.charCodeAt(0));
-              
-              // Step 2: Start resumable upload
-              const uploadResponse = await fetch(`https://generativelanguage.googleapis.com/upload/v1beta/files?key=${geminiApiKey}`, {
-                method: 'POST',
-                headers: {
-                  'X-Goog-Upload-Protocol': 'resumable',
-                  'X-Goog-Upload-Command': 'start',
-                  'X-Goog-Upload-Header-Content-Length': binaryData.length.toString(),
-                  'X-Goog-Upload-Header-Content-Type': normalizedMimeType,
-                  'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                  file: { display_name: file.name }
-                })
-              });
-
-              if (!uploadResponse.ok) {
-                throw new Error(`Upload start failed: ${uploadResponse.status} ${await uploadResponse.text()}`);
-              }
-
-              const uploadUrl = uploadResponse.headers.get('x-goog-upload-url');
-              if (!uploadUrl) {
-                throw new Error('No upload URL received from Gemini API');
-              }
-
-              // Step 3: Upload file data
-              const fileUploadResponse = await fetch(uploadUrl, {
-                method: 'POST',
-                headers: {
-                  'Content-Length': binaryData.length.toString(),
-                  'X-Goog-Upload-Offset': '0',
-                  'X-Goog-Upload-Command': 'upload, finalize',
-                },
-                body: binaryData
-              });
-
-              if (!fileUploadResponse.ok) {
-                throw new Error(`File upload failed: ${fileUploadResponse.status} ${await fileUploadResponse.text()}`);
-              }
-
-              const fileInfo = await fileUploadResponse.json();
-              console.log('File uploaded, waiting for processing...', fileInfo.file.name);
-
-              // Step 4: Wait for processing to complete (CRITICAL STEP MOST DEVELOPERS MISS)
-              let uploadedFile = fileInfo.file;
-              let retries = 0;
-              const maxRetries = 30; // Wait up to 30 seconds
-              
-              while (uploadedFile.state === 'PROCESSING' && retries < maxRetries) {
-                console.log(`File still processing... (attempt ${retries + 1})`);
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // Extract just the file ID from the name (remove 'files/' prefix if present)
-                const fileId = uploadedFile.name.replace('files/', '');
-                const statusResponse = await fetch(`https://generativelanguage.googleapis.com/v1beta/files/${fileId}?key=${geminiApiKey}`);
-                if (statusResponse.ok) {
-                  const statusData = await statusResponse.json();
-                  uploadedFile = statusData;
-                  console.log(`File status check: ${uploadedFile.state}`);
-                } else {
-                  const errorText = await statusResponse.text();
-                  console.error('Failed to check file status:', statusResponse.status, errorText);
-                  break;
-                }
-                retries++;
-              }
-
-              if (uploadedFile.state === 'ACTIVE') {
-                console.log('File processing complete, adding to request');
-                contents[0].parts.push({
-                  fileData: {
-                    mimeType: normalizedMimeType,
-                    fileUri: uploadedFile.uri
-                  }
-                });
-              } else {
-                throw new Error(`File processing failed or timed out. Final state: ${uploadedFile.state}`);
-              }
-
-            } catch (uploadError) {
-              console.error('Video upload via Files API failed:', uploadError);
-              // Fallback: add description note
-              const videoSizeMB = Math.round(file.size / 1024 / 1024 * 10) / 10;
-              contents[0].parts[0].text += `\n\nNote: A video file (${file.name}, ${videoSizeMB}MB) was uploaded but could not be processed due to API limitations. Error: ${uploadError.message}. Please describe what you observed in the video.\n`;
-            }
-          } else {
-            // Smaller files can use inline data, but with normalized MIME type
-            console.log('Small video file, using inline data with normalized MIME type');
-            contents[0].parts.push({
-              inlineData: {
-                mimeType: normalizedMimeType,
-                data: file.data
-              }
-            });
-          }
         }
       }
     }
@@ -237,9 +126,7 @@ Provide your response in this exact JSON format:
     })
 
     if (!response.ok) {
-      const errorDetails = await response.text()
-      console.error(`Gemini API error ${response.status}:`, errorDetails)
-      throw new Error(`Gemini API error: ${response.status} - ${errorDetails}`)
+      throw new Error(`Gemini API error: ${response.status}`)
     }
 
     const result = await response.json()
