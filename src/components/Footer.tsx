@@ -45,10 +45,6 @@ const Footer = () => {
                 <Phone className="h-4 w-4" />
                 <span>+1 (772) 618-5558</span>
               </div>
-              <div className="flex items-center gap-2">
-                <Mail className="h-4 w-4" />
-                <span>info@joesautorepair.com</span>
-              </div>
               <div className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5" />
                 <span>
