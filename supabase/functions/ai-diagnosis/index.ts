@@ -26,10 +26,11 @@ serve(async (req) => {
     });
 
     // Get the Gemini API key from Supabase secrets
-    const geminiApiKey = Deno.env.get('GEMINI_API_KEY')
+    const geminiApiKey = Deno.env.get('GEMINI_API_KEY')?.trim()
     
     if (!geminiApiKey) {
-      throw new Error('Gemini API key not configured')
+      console.error('GEMINI_API_KEY not found or empty in environment')
+      throw new Error('Gemini API key not configured. Please check the GEMINI_API_KEY secret.')
     }
     
     console.log('API Key available:', !!geminiApiKey, 'Length:', geminiApiKey?.length || 0)
