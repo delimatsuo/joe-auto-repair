@@ -144,27 +144,24 @@ Please contact me to discuss further.`;
     setIsTesting(true);
     
     try {
-      const { data, error } = await supabase.functions.invoke('test-gemini', {});
+      const { data, error } = await supabase.functions.invoke('simple-test', {});
       
       if (error) {
-        throw new Error(error.message || 'Failed to test API key');
+        throw new Error(error.message || 'Failed to test environment');
       }
       
       toast({
-        title: data.success ? "Success!" : "API Key Test Failed",
-        description: data.success ? data.message : data.error,
-        variant: data.success ? "default" : "destructive",
+        title: "Environment Test",
+        description: `Found ${data?.totalKeys || 0} total keys, GEMINI_API_KEY length: ${data?.geminiKeyLength || 0}`,
       });
       
-      if (data.success) {
-        console.log('API Test Response:', data.response);
-      }
+      console.log('Environment Test Response:', data);
       
     } catch (error) {
-      console.error('Error testing API key:', error);
+      console.error('Error testing environment:', error);
       toast({
-        title: "Error",
-        description: "Failed to test API key. Please try again.",
+        title: "Environment Test Failed",
+        description: "Failed to test environment. Check console for details.",
         variant: "destructive",
       });
     } finally {
@@ -345,7 +342,7 @@ Please contact me to discuss further.`;
                       Testing API Key...
                     </>
                   ) : (
-                    "Test API Key"
+                    "Test Environment"
                   )}
                 </Button>
               </div>
