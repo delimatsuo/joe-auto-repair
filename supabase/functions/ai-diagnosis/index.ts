@@ -31,6 +31,8 @@ serve(async (req) => {
     if (!geminiApiKey) {
       throw new Error('Gemini API key not configured')
     }
+    
+    console.log('API Key available:', !!geminiApiKey, 'Length:', geminiApiKey?.length || 0)
 
     // Build the prompt with all available information
     let fullPrompt = `Customer: ${customerName} (${customerPhone})\n\n`;

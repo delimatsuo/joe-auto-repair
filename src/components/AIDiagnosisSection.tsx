@@ -33,6 +33,7 @@ export const AIDiagnosisSection = () => {
   const [vehicleModel, setVehicleModel] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [diagnosisResult, setDiagnosisResult] = useState<DiagnosisResult | null>(null);
+  const [isTesting, setIsTesting] = useState(false);
   
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -137,6 +138,38 @@ Please contact me to discuss further.`;
 
     const encodedMessage = encodeURIComponent(message);
     window.open(`sms:+17726185558?&body=${encodedMessage}`, '_self');
+  };
+
+  const testApiKey = async () => {
+    setIsTesting(true);
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('test-gemini', {});
+      
+      if (error) {
+        throw new Error(error.message || 'Failed to test API key');
+      }
+      
+      toast({
+        title: data.success ? "Success!" : "API Key Test Failed",
+        description: data.success ? data.message : data.error,
+        variant: data.success ? "default" : "destructive",
+      });
+      
+      if (data.success) {
+        console.log('API Test Response:', data.response);
+      }
+      
+    } catch (error) {
+      console.error('Error testing API key:', error);
+      toast({
+        title: "Error",
+        description: "Failed to test API key. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsTesting(false);
+    }
   };
 
   return (
@@ -279,24 +312,43 @@ Please contact me to discuss further.`;
               </div>
 
               {/* Analyze Button */}
-              <Button
-                onClick={analyzeWithAI}
-                disabled={isAnalyzing}
-                className="w-full bg-primary hover:bg-primary-hover"
-                size="lg"
-              >
-                {isAnalyzing ? (
-                  <>
-                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                    Analyzing with AI...
-                  </>
-                ) : (
-                  <>
-                    <Brain className="w-4 h-4 mr-2" />
-                    Get AI Analysis
-                  </>
-                )}
-              </Button>
+              <div className="space-y-3">
+                <Button
+                  onClick={analyzeWithAI}
+                  disabled={isAnalyzing}
+                  className="w-full bg-primary hover:bg-primary-hover"
+                  size="lg"
+                >
+                  {isAnalyzing ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Analyzing with AI...
+                    </>
+                  ) : (
+                    <>
+                      <Brain className="w-4 h-4 mr-2" />
+                      Get AI Analysis
+                    </>
+                  )}
+                </Button>
+                
+                <Button
+                  onClick={testApiKey}
+                  disabled={isTesting}
+                  variant="outline"
+                  size="sm"
+                  className="w-full"
+                >
+                  {isTesting ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Testing API Key...
+                    </>
+                  ) : (
+                    "Test API Key"
+                  )}
+                </Button>
+              </div>
 
               {/* Results */}
               {diagnosisResult && (
