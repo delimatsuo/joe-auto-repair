@@ -28,8 +28,19 @@ serve(async (req) => {
     // Get the Gemini API key from Supabase secrets
     const geminiApiKey = Deno.env.get('GEMINI_API_KEY')?.trim()
     
+    // Debug: List all available environment variables that contain 'GEMINI' or 'API'
+    const allEnvKeys = Object.keys(Deno.env.toObject())
+    const relevantKeys = allEnvKeys.filter(key => 
+      key.toLowerCase().includes('gemini') || key.toLowerCase().includes('api')
+    )
+    console.log('All env keys containing GEMINI or API:', relevantKeys)
+    console.log('Total env keys:', allEnvKeys.length)
+    console.log('GEMINI_API_KEY value exists:', !!geminiApiKey)
+    console.log('GEMINI_API_KEY length:', geminiApiKey?.length || 0)
+    
     if (!geminiApiKey) {
       console.error('GEMINI_API_KEY not found or empty in environment')
+      console.error('Available keys:', relevantKeys)
       throw new Error('Gemini API key not configured. Please check the GEMINI_API_KEY secret.')
     }
     
