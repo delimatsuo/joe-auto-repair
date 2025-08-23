@@ -18,15 +18,18 @@ serve(async (req) => {
     console.log('Environment variables check:')
     console.log('- SUPABASE_URL exists:', !!Deno.env.get('SUPABASE_URL'))
     console.log('- GEMINI_API_KEY exists:', !!geminiApiKey)
+    console.log('- GEMINI_API_KEY length:', geminiApiKey?.length || 0)
+    console.log('- GEMINI_API_KEY first 10 chars:', geminiApiKey?.substring(0, 10) || 'null')
     console.log('- Available env keys:', Object.keys(Deno.env.toObject()).filter(key => 
       key.includes('GEMINI') || key.includes('API') || key === 'SUPABASE_URL'
     ))
     
-    if (!geminiApiKey) {
+    if (!geminiApiKey || geminiApiKey.trim() === '') {
       return new Response(
         JSON.stringify({ 
           success: false, 
-          error: 'GEMINI_API_KEY not found in environment',
+          error: `GEMINI_API_KEY ${!geminiApiKey ? 'not found' : 'is empty'} in environment`,
+          keyLength: geminiApiKey?.length || 0,
           availableKeys: Object.keys(Deno.env.toObject()).filter(key => 
             key.includes('GEMINI') || key.includes('API')
           )
