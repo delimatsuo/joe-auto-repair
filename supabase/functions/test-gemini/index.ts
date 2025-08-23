@@ -15,9 +15,22 @@ serve(async (req) => {
   try {
     const geminiApiKey = Deno.env.get('GEMINI_API_KEY')
     
+    console.log('Environment variables check:')
+    console.log('- SUPABASE_URL exists:', !!Deno.env.get('SUPABASE_URL'))
+    console.log('- GEMINI_API_KEY exists:', !!geminiApiKey)
+    console.log('- Available env keys:', Object.keys(Deno.env.toObject()).filter(key => 
+      key.includes('GEMINI') || key.includes('API') || key === 'SUPABASE_URL'
+    ))
+    
     if (!geminiApiKey) {
       return new Response(
-        JSON.stringify({ success: false, error: 'GEMINI_API_KEY not found in environment' }),
+        JSON.stringify({ 
+          success: false, 
+          error: 'GEMINI_API_KEY not found in environment',
+          availableKeys: Object.keys(Deno.env.toObject()).filter(key => 
+            key.includes('GEMINI') || key.includes('API')
+          )
+        }),
         { 
           status: 500,
           headers: { ...corsHeaders, 'Content-Type': 'application/json' }
