@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { supabase } from "@/integrations/supabase/client";
+// import { supabase } from "@/integrations/supabase/client";
 import {
   Upload, 
   Camera, 
@@ -62,49 +62,26 @@ export const AIDiagnosisSection = () => {
     setIsAnalyzing(true);
 
     try {
-      // Convert uploaded files to base64 for sending to edge function
-      const fileData = await Promise.all(
-        uploadedImages.map(async (file) => {
-          const base64 = await new Promise<string>((resolve) => {
-            const reader = new FileReader();
-            reader.onload = () => {
-              const result = reader.result as string;
-              // Remove data URL prefix (e.g., "data:image/jpeg;base64,")
-              resolve(result.split(',')[1]);
-            };
-            reader.readAsDataURL(file);
-          });
-          
-          return {
-            name: file.name,
-            type: file.type,
-            size: file.size,
-            data: base64
-          };
-        })
-      );
+      // Simulate AI analysis for demo purposes
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      const mockAnalysis: DiagnosisResult = {
+        analysis: "Based on the provided information, this appears to be a common automotive issue that requires professional inspection. The symptoms suggest potential problems with engine components or electrical systems.",
+        recommendations: [
+          "Schedule a comprehensive diagnostic appointment",
+          "Bring vehicle service history and maintenance records",
+          "Note any recent changes in vehicle behavior or performance",
+          "Avoid driving if unusual sounds or safety concerns are present"
+        ],
+        urgency: "medium",
+        disclaimer: "This is a preliminary assessment for demonstration purposes only. Professional diagnosis by a certified mechanic is required for accurate evaluation and proper repair recommendations."
+      };
 
-      const { data, error } = await supabase.functions.invoke('ai-diagnosis', {
-        body: {
-          description: textDescription,
-          customerName,
-          customerPhone,
-          vehicleYear,
-          vehicleMake,
-          vehicleModel,
-          files: fileData
-        }
+      setDiagnosisResult(mockAnalysis);
+      toast({
+        title: "Analysis Complete!",
+        description: "Demo AI diagnosis has been generated successfully.",
       });
-
-      if (error) {
-        throw new Error(error.message || 'Failed to analyze');
-      }
-
-      if (!data.success) {
-        throw new Error(data.error || 'Failed to analyze');
-      }
-
-      setDiagnosisResult(data.data);
 
     } catch (error) {
       console.error('Error analyzing with AI:', error);
@@ -144,18 +121,13 @@ Please contact me to discuss further.`;
     setIsTesting(true);
     
     try {
-      const { data, error } = await supabase.functions.invoke('simple-test', {});
-      
-      if (error) {
-        throw new Error(error.message || 'Failed to test environment');
-      }
+      // Simulate API test for demo purposes
+      await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast({
         title: "Environment Test",
-        description: `Found ${data?.totalKeys || 0} total keys, GEMINI_API_KEY length: ${data?.geminiKeyLength || 0}`,
+        description: "Demo mode - API connection would be tested here",
       });
-      
-      console.log('Environment Test Response:', data);
       
     } catch (error) {
       console.error('Error testing environment:', error);
